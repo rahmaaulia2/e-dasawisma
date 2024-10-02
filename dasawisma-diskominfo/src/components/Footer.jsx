@@ -13,8 +13,7 @@ export default function Footer(){
             />
           </a>
           <p className="max-w-sm mt-2 text-gray-500 dark:text-gray-400">
-            Join 31,000+ other and never miss out on new tips, tutorials, and
-            more.
+            Website Pemerintah Kota Sukabumi merupakan layanan teknologi informasi untuk meningkatkan efisiensi, efektivitas, transparansi serta akuntabilitas dalam penyelenggaraan pemerintah.
           </p>
           <div className="flex mt-6 -mx-2">
             <a
@@ -65,12 +64,11 @@ export default function Footer(){
       <div className="mt-6 lg:mt-0 lg:flex-1">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           <div>
-            <h3 className="text-gray-700 uppercase dark:text-white">About</h3>
             <a
-              href="#"
-              className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline"
+              href="https://sukabumikota.go.id/"
+              className="text-gray-700 uppercase dark:text-white"
             >
-              Company
+              About
             </a>
             <a
               href="#"
@@ -86,56 +84,15 @@ export default function Footer(){
             </a>
           </div>
           <div>
-            <h3 className="text-gray-700 uppercase dark:text-white">Blog</h3>
-            <a
-              href="#"
-              className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline"
-            >
-              Tec
-            </a>
-            <a
-              href="#"
-              className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline"
-            >
-              Music
-            </a>
-            <a
-              href="#"
-              className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline"
-            >
-              Videos
-            </a>
-          </div>
-          <div>
-            <h3 className="text-gray-700 uppercase dark:text-white">
-              Products
-            </h3>
-            <a
-              href="#"
-              className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline"
-            >
-              Mega cloud
-            </a>
-            <a
-              href="#"
-              className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline"
-            >
-              Aperion UI
-            </a>
-            <a
-              href="#"
-              className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline"
-            >
-              Meraki UI
-            </a>
-          </div>
-          <div>
-            <h3 className="text-gray-700 uppercase dark:text-white">Contact</h3>
+            <h3 className="text-gray-700 uppercase dark:text-white">Kontak</h3>
             <span className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">
-              +1 526 654 8965
+              Telp : +62 (266) 20229715
             </span>
             <span className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">
-              example@email.com
+              Email : diskominfo@sukabumikota.go.id
+            </span>
+            <span className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">
+              Alamat : Jl. R. Syamsudin. SH No.25, Cikole, Kec. Cikole, Kota Sukabumi, Jawa Barat 43113
             </span>
           </div>
         </div>
@@ -144,7 +101,8 @@ export default function Footer(){
     <hr className="h-px my-6 bg-gray-200 border-none dark:bg-gray-700" />
     <div>
       <p className="text-center text-gray-500 dark:text-gray-400">
-        © Brand 2020 - All rights reserved
+        © Dinas Komunikasi dan Informatika Kota
+        <p>Sukabumi - Spirit of sharing.</p>
       </p>
     </div>
   </div>
