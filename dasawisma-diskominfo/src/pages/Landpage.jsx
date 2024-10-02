@@ -1,11 +1,11 @@
 import Footer from "../components/Footer";
-import Hero2 from "../components/Hero2";
+import Hero from "../components/Hero";
 import Statistic from "../components/Statistic";
 
 export default function Landpage(){
     return(
         <>
-        <Hero2/>
+        <Hero/>
         <Statistic/>
         <Footer/>
         </>
