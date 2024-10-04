@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Hero from "./HeroGakpke";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -7,48 +8,79 @@ export default function Navbar() {
   };
   return (
     <>
-      <div>
-        <div className="mx-auto max-w-screen-xl px-6 lg:px-8 relative">
-          <div className="relative flex h-16 space-x-10 w-full">
-            <div className="flex justify-start">
-              <a className="flex flex-shrink-0 items-center" href="/">
-                <img className="block h-8 w-auto" height={32} src="logo.png" />
-              </a>
-            </div>
-            <div className="flex-shrink-0 flex px-2 py-3 items-center space-x-8 flex-1 justify-end justify-self-end ">
+      <nav className="fixed z-10 w-full bg-white md:absolute md:bg-transparent">
+        <div className="container m-auto px-2 md:px-12 lg:px-7">
+          <div className="flex flex-wrap items-center justify-between py-3 gap-6 md:py-4 md:gap-0">
+            <div className="w-full px-6 flex justify-between lg:w-max md:px-0">
               <a
-                className="text-gray-700 hover:text-lime-700 text-sm font-medium"
-                href="/login"
+                href="https://tailus.io/blocks/hero-section"
+                aria-label="logo"
+                className="flex space-x-2 items-center"
               >
-                Beranda
+                <img
+                  src="logo.png"
+                  className="w-12"
+                  alt="tailus logo"
+                  width={144}
+                  height={133}
+                />
+                <span className="text-2xl font-bold text-yellow-900">
+                  SI <span className="text-yellow-700">DAWET</span>
+                </span>
               </a>
-              <div className="relative inline-block text-left">
-                <div>
-                  <button
-                    type="button"
-                    className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                    id="menu-button"
-                    aria-expanded={isOpen}
-                    aria-haspopup="true"
-                    onClick={toggleDropdown} // Menambahkan event onClick untuk membuka/menutup dropdown
-                  >
-                    Layanan
-                    <svg
-                      className="-mr-1 h-5 w-5 text-gray-400"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
+              <button
+                aria-label="humburger"
+                id="hamburger"
+                className="relative w-10 h-10 -mr-2 lg:hidden"
+              >
+                <div
+                  aria-hidden="true"
+                  id="line"
+                  className="inset-0 w-6 h-0.5 m-auto rounded bg-yellow-900 transtion duration-300"
+                />
+                <div
+                  aria-hidden="true"
+                  id="line2"
+                  className="inset-0 w-6 h-0.5 mt-2 m-auto rounded bg-yellow-900 transtion duration-300"
+                />
+              </button>
+            </div>
+            <div className="hidden w-full lg:flex flex-wrap justify-end items-center space-y-6 p-6 rounded-xl bg-white md:space-y-0 md:p-0 md:flex-nowrap md:bg-transparent lg:w-7/12">
+              <div className="text-gray-600 lg:pr-4">
+                <ul className="space-y-6 tracking-wide font-medium text-sm md:flex md:space-y-0">
+                  <li>
+                    <a
+                      href="#"
+                      className="block md:px-4 transition hover:text-yellow-700"
                     >
-                      <path
-                        fillRule="evenodd"
-                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </button>
-                </div>
-
-                {/* Menambahkan animasi dengan class transition */}
+                      <span>Beranda</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div className="w-full space-y-2 border-yellow-200 lg:space-y-0 md:w-max lg:border-l">
+                <button
+                  type="button"
+                  onClick={toggleDropdown}
+                  title="Start buying"
+                  className="w-full py-3 px-6 text-center rounded-full transition active:bg-yellow-200 focus:bg-yellow-100 sm:w-max"
+                >
+                  <span className="block text-yellow-800 font-semibold text-sm">
+                    Layanan
+                  </span>
+                  <svg
+                    className="-mr-1 h-5 w-5 text-gray-400"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
                 <div
                   className={`${
                     isOpen
@@ -61,7 +93,7 @@ export default function Navbar() {
                 >
                   <div className="py-1" role="none">
                     <a
-                      href="/stunting"
+                      href="#"
                       className="block px-4 py-2 text-sm text-gray-700"
                       role="menuitem"
                       id="menu-item-0"
@@ -69,7 +101,7 @@ export default function Navbar() {
                       Peduli Stunting
                     </a>
                     <a
-                      href="/e-asuh"
+                      href="#"
                       className="block px-4 py-2 text-sm text-gray-700"
                       role="menuitem"
                       id="menu-item-1"
@@ -77,37 +109,38 @@ export default function Navbar() {
                       E-Asuh
                     </a>
                     <a
-                      href="/bumil-fit"
+                      href="#"
                       className="block px-4 py-2 text-sm text-gray-700"
                       role="menuitem"
                       id="menu-item-2"
                     >
                       Bumil Fit
                     </a>
-                    <Link to={"/dasawisma"}>
-                      <button
-                        type="submit"
-                        className="block w-full px-4 py-2 text-left text-sm text-gray-700"
-                        role="menuitem"
-                        id="menu-item-3"
-                      >
-                        Dasawisma
-                      </button>
-                    </Link>
+                    <a
+                      href="/login"
+                      className="block px-4 py-2 text-sm text-gray-700"
+                      role="menuitem"
+                      id="menu-item-2"
+                    >
+                      Dasawisma
+                    </a>
                   </div>
                 </div>
-              </div>
 
-              <a
-                className="text-white bg-gray-800 hover:bg-gray-900 inline-flex items-center justify-center px-3 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm "
-                href="/signup"
-              >
-                Login
-              </a>
+                <button
+                  type="button"
+                  title="Start buying"
+                  className="w-full py-3 px-6 text-center rounded-full transition bg-yellow-300 hover:bg-yellow-100 active:bg-yellow-400 focus:bg-yellow-300 sm:w-max"
+                >
+                  <span className="block text-yellow-900 font-semibold text-sm">
+                    Login
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </nav>
     </>
   );
 }
