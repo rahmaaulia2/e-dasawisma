@@ -1,8 +1,10 @@
+import PieChart from "../components/PieChart";
+
 export default function Dashboard() {
   return (
     <div className="p-6">
       <div className="grid grid-cols-1 gap-4 sm:mt-8 sm:grid-cols-2 lg:grid-cols-2 gap-6 mb-8">
-        <div className="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
+        <div className="bg-amber-100 rounded-md border border-gray-100 p-6 shadow-md shadow-black/20">
           <div className="flex justify-between mb-6">
             <div>
               <div className="flex items-center mb-1">
@@ -52,7 +54,7 @@ export default function Dashboard() {
             View
           </a>
         </div>
-        <div className="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
+        <div className="bg-amber-100 rounded-md border border-gray-100 p-6 shadow-md shadow-black/20">
           <div className="flex justify-between mb-4">
             <div>
               <div className="flex items-center mb-1">
@@ -72,7 +74,7 @@ export default function Dashboard() {
           </a>
         </div>
       </div>
-      
+      <PieChart/>
       
     </div>
   );

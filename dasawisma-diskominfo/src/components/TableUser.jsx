@@ -1,3 +1,4 @@
+
 export default function TableUser() {
   return (
     <>
@@ -5,7 +6,7 @@ export default function TableUser() {
         <div className="grid grid-cols-1 gap-4 sm:mt-2 sm:grid-cols-2 lg:grid-cols-2 gap-6 mb-2">
           <div className="bg-white border border-gray-200 shadow-md shadow-black/5 p-6 rounded-md lg:col-span-2">
             <div className="flex justify-between mb-4 items-start">
-              <div className="font-medium">Users</div>
+              <div className="font-medium">Manajemen User</div>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full min-w-[460px]">
@@ -65,7 +66,7 @@ export default function TableUser() {
                       </span>
                     </td>
                     <td className="py-2 px-4 border-b border-b-gray-50">
-                      <span className="inline-block p-1 rounded text-zinc-500 font-medium text-[12px] leading-none">
+                      <span className="inline-block rounded text-zinc-500 font-medium text-[12px] leading-none">
                         087682739182
                       </span>
                     </td>
@@ -129,7 +130,7 @@ export default function TableUser() {
                       </span>
                     </td>
                     <td className="py-2 px-4 border-b border-b-gray-50">
-                      <span className="inline-block p-1 rounded text-zinc-500 font-medium text-[12px] leading-none">
+                      <span className="inline-block rounded text-zinc-500 font-medium text-[12px] leading-none">
                         087682739182
                       </span>
                     </td>
@@ -193,7 +194,7 @@ export default function TableUser() {
                       </span>
                     </td>
                     <td className="py-2 px-4 border-b border-b-gray-50">
-                      <span className="inline-block p-1 rounded text-zinc-500 font-medium text-[12px] leading-none">
+                      <span className="inline-block rounded text-zinc-500 font-medium text-[12px] leading-none">
                         087682739182
                       </span>
                     </td>
@@ -257,7 +258,7 @@ export default function TableUser() {
                       </span>
                     </td>
                     <td className="py-2 px-4 border-b border-b-gray-50">
-                      <span className="inline-block p-1 rounded text-zinc-500 font-medium text-[12px] leading-none">
+                      <span className="inline-block rounded text-zinc-500 font-medium text-[12px] leading-none">
                         087682739182
                       </span>
                     </td>
@@ -321,7 +322,7 @@ export default function TableUser() {
                       </span>
                     </td>
                     <td className="py-2 px-4 border-b border-b-gray-50">
-                      <span className="inline-block p-1 rounded text-zinc-500 font-medium text-[12px] leading-none">
+                      <span className="inline-block rounded text-zinc-500 font-medium text-[12px] leading-none">
                         087682739182
                       </span>
                     </td>
@@ -385,7 +386,7 @@ export default function TableUser() {
                       </span>
                     </td>
                     <td className="py-2 px-4 border-b border-b-gray-50">
-                      <span className="inline-block p-1 rounded text-zinc-500 font-medium text-[12px] leading-none">
+                      <span className="inline-block rounded text-zinc-500 font-medium text-[12px] leading-none">
                         087682739182
                       </span>
                     </td>
@@ -449,7 +450,7 @@ export default function TableUser() {
                       </span>
                     </td>
                     <td className="py-2 px-4 border-b border-b-gray-50">
-                      <span className="inline-block p-1 rounded text-zinc-500 font-medium text-[12px] leading-none">
+                      <span className="inline-block rounded text-zinc-500 font-medium text-[12px] leading-none">
                         087682739182
                       </span>
                     </td>
@@ -513,7 +514,7 @@ export default function TableUser() {
                       </span>
                     </td>
                     <td className="py-2 px-4 border-b border-b-gray-50">
-                      <span className="inline-block p-1 rounded text-zinc-500 font-medium text-[12px] leading-none">
+                      <span className="inline-block rounded text-zinc-500 font-medium text-[12px] leading-none">
                         087682739182
                       </span>
                     </td>
