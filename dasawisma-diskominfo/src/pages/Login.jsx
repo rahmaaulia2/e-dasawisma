@@ -11,7 +11,7 @@ export default function Login() {
                 alt=""
               />
               <h1 className="mt-4 text-gray-600 dark:text-gray-300 md:text-lg">
-                Welcome back
+                Wilujeng Sumping
               </h1>
               <h1 className="mt-4 text-2xl font-medium text-gray-800 capitalize lg:text-3xl dark:text-white">
                 login to your account

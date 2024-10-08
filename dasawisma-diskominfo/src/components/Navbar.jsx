@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Hero from "./HeroGakpke";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,9 +8,9 @@ export default function Navbar() {
   };
   return (
     <>
-      <nav className="fixed z-10 w-full bg-white md:absolute md:bg-transparent">
+      <nav className="relative z-10 w-full mt-4 bg-white md:relative md:bg-transparent">
         <div className="container m-auto px-2 md:px-12 lg:px-7">
-          <div className="flex flex-wrap items-center justify-between py-3 gap-6 md:py-4 md:gap-0">
+          <div className="flex flex-wrap items-center justify-between py-2 gap-6 md:py-2 md:gap-0">
             <div className="w-full px-6 flex justify-between lg:w-max md:px-0">
               <a
                 href="https://tailus.io/blocks/hero-section"
@@ -50,7 +50,7 @@ export default function Navbar() {
                 <ul className="space-y-6 tracking-wide font-medium text-sm md:flex md:space-y-0">
                   <li>
                     <a
-                      href="#"
+                      href="/"
                       className="block md:px-4 transition hover:text-yellow-700"
                     >
                       <span>Beranda</span>
@@ -63,7 +63,7 @@ export default function Navbar() {
                   type="button"
                   onClick={toggleDropdown}
                   title="Start buying"
-                  className="w-full py-3 px-6 text-center rounded-full transition active:bg-yellow-200 focus:bg-yellow-100 sm:w-max"
+                  className="inline-flex w-full py-2 px-6 text-center rounded-full transition active:bg-yellow-200 focus:bg-yellow-100 sm:w-max"
                 >
                   <span className="block text-yellow-800 font-semibold text-sm">
                     Layanan
@@ -92,32 +92,24 @@ export default function Navbar() {
                   aria-labelledby="menu-button"
                 >
                   <div className="py-1" role="none">
-                    <a
-                      href="#"
+                  <a
+                      href="/dashboard"
                       className="block px-4 py-2 text-sm text-gray-700"
                       role="menuitem"
                       id="menu-item-0"
                     >
-                      Peduli Stunting
+                      Dashboard
                     </a>
                     <a
-                      href="#"
+                      href="/addUser"
                       className="block px-4 py-2 text-sm text-gray-700"
                       role="menuitem"
-                      id="menu-item-1"
+                      id="menu-item-0"
                     >
-                      E-Asuh
+                      Add User
                     </a>
                     <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700"
-                      role="menuitem"
-                      id="menu-item-2"
-                    >
-                      Bumil Fit
-                    </a>
-                    <a
-                      href="/login"
+                      href="/dasawisma"
                       className="block px-4 py-2 text-sm text-gray-700"
                       role="menuitem"
                       id="menu-item-2"
@@ -126,16 +118,17 @@ export default function Navbar() {
                     </a>
                   </div>
                 </div>
-
+                <Link to={"/leubeut"}>
                 <button
                   type="button"
-                  title="Start buying"
-                  className="w-full py-3 px-6 text-center rounded-full transition bg-yellow-300 hover:bg-yellow-100 active:bg-yellow-400 focus:bg-yellow-300 sm:w-max"
+                  title="login"
+                  className="w-full py-2 px-6 text-center rounded-full transition bg-yellow-300 hover:bg-yellow-100 active:bg-yellow-400 focus:bg-yellow-300 sm:w-max"
                 >
                   <span className="block text-yellow-900 font-semibold text-sm">
                     Login
                   </span>
                 </button>
+                </Link>
               </div>
             </div>
           </div>
