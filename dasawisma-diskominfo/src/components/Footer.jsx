@@ -62,35 +62,37 @@ export default function Footer(){
         </div>
       </div>
       <div className="mt-6 lg:mt-0 lg:flex-1">
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
           <div>
             <a
               href="https://sukabumikota.go.id/"
               className="text-gray-700 uppercase dark:text-white"
             >
-              About
+              Telp
             </a>
             <a
               href="#"
               className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline"
             >
-              community
-            </a>
-            <a
-              href="#"
-              className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline"
-            >
-              Careers
+              Telp : +62 (266) 20229715
             </a>
           </div>
           <div>
-            <h3 className="text-gray-700 uppercase dark:text-white">Kontak</h3>
-            <span className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">
-              Telp : +62 (266) 20229715
-            </span>
-            <span className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">
+            <a
+              href="https://sukabumikota.go.id/"
+              className="text-gray-700 uppercase dark:text-white"
+            >
+              Email
+            </a>
+            <a
+              href="#"
+              className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline"
+            >
               Email : diskominfo@sukabumikota.go.id
-            </span>
+            </a>
+          </div>
+          <div>
+            <h3 className="text-gray-700 uppercase dark:text-white">Alamat</h3>
             <span className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">
               Alamat : Jl. R. Syamsudin. SH No.25, Cikole, Kec. Cikole, Kota Sukabumi, Jawa Barat 43113
             </span>
