@@ -2,10 +2,17 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // State untuk menu di mobile
+  const [isOpen, setIsOpen] = useState(false); // State untuk dropdown layanan
+  
   const toggleDropdown = () => {
-    setIsOpen(!isOpen); // Membuka atau menutup dropdown
+    setIsOpen(!isOpen); // Membuka atau menutup dropdown layanan
   };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen); // Membuka atau menutup menu di mobile
+  };
+
   return (
     <>
       <nav className="relative z-10 w-full mt-4 bg-white md:relative md:bg-transparent">
@@ -29,23 +36,30 @@ export default function Navbar() {
                 </span>
               </a>
               <button
-                aria-label="humburger"
+                aria-label="hamburger"
                 id="hamburger"
                 className="relative w-10 h-10 -mr-2 lg:hidden"
+                onClick={toggleMenu} // Tambahkan onClick untuk toggle menu
               >
                 <div
                   aria-hidden="true"
                   id="line"
-                  className="inset-0 w-6 h-0.5 m-auto rounded bg-yellow-900 transtion duration-300"
+                  className="inset-0 w-6 h-0.5 m-auto rounded bg-yellow-900 transition duration-300"
                 />
                 <div
                   aria-hidden="true"
                   id="line2"
-                  className="inset-0 w-6 h-0.5 mt-2 m-auto rounded bg-yellow-900 transtion duration-300"
+                  className="inset-0 w-6 h-0.5 mt-2 m-auto rounded bg-yellow-900 transition duration-300"
                 />
               </button>
             </div>
-            <div className="hidden w-full lg:flex flex-wrap justify-end items-center space-y-6 p-6 rounded-xl bg-white md:space-y-0 md:p-0 md:flex-nowrap md:bg-transparent lg:w-7/12">
+
+            {/* Tambahkan logika untuk menampilkan menu di mobile */}
+            <div
+              className={`${
+                isMenuOpen ? "block" : "hidden"
+              } w-full lg:flex flex-wrap justify-end items-center space-y-6 p-6 rounded-xl bg-white md:space-y-0 md:p-0 md:flex-nowrap md:bg-transparent lg:w-7/12`}
+            >
               <div className="text-gray-600 lg:pr-4">
                 <ul className="space-y-6 tracking-wide font-medium text-sm md:flex md:space-y-0">
                   <li>
@@ -92,7 +106,7 @@ export default function Navbar() {
                   aria-labelledby="menu-button"
                 >
                   <div className="py-1" role="none">
-                  <a
+                    <a
                       href="/dashboard"
                       className="block px-4 py-2 text-sm text-gray-700"
                       role="menuitem"
@@ -119,15 +133,15 @@ export default function Navbar() {
                   </div>
                 </div>
                 <Link to={"/leubeut"}>
-                <button
-                  type="button"
-                  title="login"
-                  className="w-full py-2 px-6 text-center rounded-full transition bg-yellow-300 hover:bg-yellow-100 active:bg-yellow-400 focus:bg-yellow-300 sm:w-max"
-                >
-                  <span className="block text-yellow-900 font-semibold text-sm">
-                    Login
-                  </span>
-                </button>
+                  <button
+                    type="button"
+                    title="login"
+                    className="w-full py-2 px-6 text-center rounded-full transition bg-yellow-300 hover:bg-yellow-100 active:bg-yellow-400 focus:bg-yellow-300 sm:w-max"
+                  >
+                    <span className="block text-yellow-900 font-semibold text-sm">
+                      Login
+                    </span>
+                  </button>
                 </Link>
               </div>
             </div>

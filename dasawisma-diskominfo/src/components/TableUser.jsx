@@ -1,8 +1,43 @@
+import { Link } from "react-router-dom";
 
 export default function TableUser() {
+  const handleDelete = () => {
+    return Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+      }
+    });
+  };
   return (
     <>
       <div className="p-6">
+      <Link
+            to={"/dashboard"}
+            className="inline-block p-1 rounded bg-gray-500/10 text-gray-500 font-medium text-[12px] leading-none"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              x="px"
+              y="0px"
+              width="24"
+              height="24"
+              viewBox="0 0 48 48"
+            >
+              <path d="M 24 4 C 12.972066 4 4 12.972074 4 24 C 4 35.027926 12.972066 44 24 44 C 35.027934 44 44 35.027926 44 24 C 44 12.972074 35.027934 4 24 4 z M 24 7 C 33.406615 7 41 14.593391 41 24 C 41 33.406609 33.406615 41 24 41 C 14.593385 41 7 33.406609 7 24 C 7 14.593391 14.593385 7 24 7 z M 22.470703 16.486328 A 1.50015 1.50015 0 0 0 21.439453 16.939453 L 15.439453 22.939453 A 1.50015 1.50015 0 0 0 15.439453 25.060547 L 21.439453 31.060547 A 1.50015 1.50015 0 1 0 23.560547 28.939453 L 20.121094 25.5 L 31.5 25.5 A 1.50015 1.50015 0 1 0 31.5 22.5 L 20.121094 22.5 L 23.560547 19.060547 A 1.50015 1.50015 0 0 0 22.470703 16.486328 z"></path>
+            </svg>
+          </Link>
         <div className="grid grid-cols-1 gap-4 sm:mt-2 sm:grid-cols-2 lg:grid-cols-2 gap-6 mb-2">
           <div className="bg-white border border-gray-200 shadow-md shadow-black/5 p-6 rounded-md lg:col-span-2">
             <div className="flex justify-between mb-4 items-start">
@@ -49,7 +84,11 @@ export default function TableUser() {
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="py-2 px-4 border-b border-b-gray-50"><span className="text-gray-600 text-sm font-medium hover:text-blue-500 ml-2 truncate">1</span></td>
+                    <td className="py-2 px-4 border-b border-b-gray-50">
+                      <span className="text-gray-600 text-sm font-medium hover:text-blue-500 ml-2 truncate">
+                        1
+                      </span>
+                    </td>
                     <td className="py-2 px-4 border-b border-b-gray-50">
                       <div className="flex items-center">
                         <a
@@ -94,6 +133,7 @@ export default function TableUser() {
                           </span>
                         </button>
                         <button
+                          onClick={handleDelete}
                           className="relative h-5 max-h-[40px] w-5 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-slate-900 transition-all hover:bg-slate-900/10 active:bg-slate-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                           type="button"
                         >
@@ -113,7 +153,11 @@ export default function TableUser() {
                     </td>
                   </tr>
                   <tr>
-                  <td className="py-2 px-4 border-b border-b-gray-50"><span className="text-gray-600 text-sm font-medium hover:text-blue-500 ml-2 truncate">2</span></td>
+                    <td className="py-2 px-4 border-b border-b-gray-50">
+                      <span className="text-gray-600 text-sm font-medium hover:text-blue-500 ml-2 truncate">
+                        2
+                      </span>
+                    </td>
                     <td className="py-2 px-4 border-b border-b-gray-50">
                       <div className="flex items-center">
                         <a
@@ -177,7 +221,11 @@ export default function TableUser() {
                     </td>
                   </tr>
                   <tr>
-                  <td className="py-2 px-4 border-b border-b-gray-50"><span className="text-gray-600 text-sm font-medium hover:text-blue-500 ml-2 truncate">3</span></td>
+                    <td className="py-2 px-4 border-b border-b-gray-50">
+                      <span className="text-gray-600 text-sm font-medium hover:text-blue-500 ml-2 truncate">
+                        3
+                      </span>
+                    </td>
                     <td className="py-2 px-4 border-b border-b-gray-50">
                       <div className="flex items-center">
                         <a
@@ -241,7 +289,11 @@ export default function TableUser() {
                     </td>
                   </tr>
                   <tr>
-                  <td className="py-2 px-4 border-b border-b-gray-50"><span className="text-gray-600 text-sm font-medium hover:text-blue-500 ml-2 truncate">4</span></td>
+                    <td className="py-2 px-4 border-b border-b-gray-50">
+                      <span className="text-gray-600 text-sm font-medium hover:text-blue-500 ml-2 truncate">
+                        4
+                      </span>
+                    </td>
                     <td className="py-2 px-4 border-b border-b-gray-50">
                       <div className="flex items-center">
                         <a
@@ -305,7 +357,11 @@ export default function TableUser() {
                     </td>
                   </tr>
                   <tr>
-                  <td className="py-2 px-4 border-b border-b-gray-50"><span className="text-gray-600 text-sm font-medium hover:text-blue-500 ml-2 truncate">5</span></td>
+                    <td className="py-2 px-4 border-b border-b-gray-50">
+                      <span className="text-gray-600 text-sm font-medium hover:text-blue-500 ml-2 truncate">
+                        5
+                      </span>
+                    </td>
                     <td className="py-2 px-4 border-b border-b-gray-50">
                       <div className="flex items-center">
                         <a
@@ -369,7 +425,11 @@ export default function TableUser() {
                     </td>
                   </tr>
                   <tr>
-                  <td className="py-2 px-4 border-b border-b-gray-50"><span className="text-gray-600 text-sm font-medium hover:text-blue-500 ml-2 truncate">6</span></td>
+                    <td className="py-2 px-4 border-b border-b-gray-50">
+                      <span className="text-gray-600 text-sm font-medium hover:text-blue-500 ml-2 truncate">
+                        6
+                      </span>
+                    </td>
                     <td className="py-2 px-4 border-b border-b-gray-50">
                       <div className="flex items-center">
                         <a
@@ -433,7 +493,11 @@ export default function TableUser() {
                     </td>
                   </tr>
                   <tr>
-                  <td className="py-2 px-4 border-b border-b-gray-50"><span className="text-gray-600 text-sm font-medium hover:text-blue-500 ml-2 truncate">7</span></td>
+                    <td className="py-2 px-4 border-b border-b-gray-50">
+                      <span className="text-gray-600 text-sm font-medium hover:text-blue-500 ml-2 truncate">
+                        7
+                      </span>
+                    </td>
                     <td className="py-2 px-4 border-b border-b-gray-50">
                       <div className="flex items-center">
                         <a
@@ -497,7 +561,11 @@ export default function TableUser() {
                     </td>
                   </tr>
                   <tr>
-                  <td className="py-2 px-4 border-b border-b-gray-50"><span className="text-gray-600 text-sm font-medium hover:text-blue-500 ml-2 truncate">8</span></td>
+                    <td className="py-2 px-4 border-b border-b-gray-50">
+                      <span className="text-gray-600 text-sm font-medium hover:text-blue-500 ml-2 truncate">
+                        8
+                      </span>
+                    </td>
                     <td className="py-2 px-4 border-b border-b-gray-50">
                       <div className="flex items-center">
                         <a
