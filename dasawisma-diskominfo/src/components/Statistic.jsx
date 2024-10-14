@@ -8,9 +8,10 @@ export default function Statistic() {
           </h2>
 
           <p className="mt-4 text-gray-500 sm:text-xl">
-            Data Kader Dasawisma di Kelurahan Warudoyong pada tahun 2023/2024.
+            Database Kecamatan Warudoyong ini untuk menjelaskan jumlah warga yang berada di wilayah kecamatan warudoyong dan di distribusikan untuk semua kelurahan.
+            {/* Data Kader Dasawisma di Kelurahan Warudoyong pada tahun 2023/2024.
             Bagian ini menjelaskan jumlah kader Dasawisma se-Kecamatan ini dan
-            distribusi kader per kelurahan Warudoyong
+            distribusi kader per kelurahan Warudoyong */}
           </p>
         </div>
 

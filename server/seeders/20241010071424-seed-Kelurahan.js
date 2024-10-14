@@ -3,13 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    const data = [
-      { nama: "Benteng", KecamatanId: 7 },
-      { nama: "Dayeuhluhur", KecamatanId: 7 },
-      { nama: "Nyomplong", KecamatanId: 7 },
-      { nama: "Sukakarya", KecamatanId: 7 },
-      { nama: "Warudoyong", KecamatanId: 7 },
-    ].map((el) => {
+    const data = require("../kelurahan.json").map((el) => {
       el.createdAt = el.updatedAt = new Date();
       return el;
     });
