@@ -3,15 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    const data = [
-      { nama: "Baros" },
-      { nama: "Cibereum" },
-      { nama: "Cikole" },
-      { nama: "Citamiang" },
-      { nama: "Gunung Puyuh" },
-      { nama: "Lembursitu" },
-      { nama: "Warudoyong" },
-    ].map((el) => {
+    const data = require("../kecamatan.json").map((el) => {
       el.createdAt = el.updatedAt = new Date();
       return el;
     });
