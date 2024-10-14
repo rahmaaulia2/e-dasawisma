@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const { hashPassword } = require('../helper/bcrypt');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -13,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       User.belongsTo(models.Kecamatan, {foreignKey : "KecamatanId"})
       User.belongsTo(models.Kelurahan, {foreignKey : "KelurahanId"})
+      User.hasOne(models.DetailKK, {foreignKey : "UserId"})
     }
   }
   User.init({
@@ -38,6 +40,11 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING
   }, {
     sequelize,
+    hooks:{
+      beforeCreate(user){
+        user.password = hashPassword(user.password)
+      }
+    },
     modelName: 'User',
   });
   return User;
