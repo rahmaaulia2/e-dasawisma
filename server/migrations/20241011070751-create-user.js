@@ -35,6 +35,12 @@ module.exports = {
           key : 'id'
         }
       },
+      rt: {
+        type: Sequelize.STRING
+      },
+      rw: {
+        type: Sequelize.STRING
+      },
       role: {
         type: Sequelize.STRING
       },

@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Kecamatan.hasMany(models.Kelurahan, {foreignKey : "KecamatanId"})
       Kecamatan.hasMany(models.User, {foreignKey : "KecamatanId"})
+      Kecamatan.hasMany(models.DetailKK, {foreignKey : "KecamatanId"})
     }
   }
   Kecamatan.init({

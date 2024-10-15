@@ -16,6 +16,13 @@ module.exports = {
           key: 'id'
         }
       },
+      KecamatanId :{
+        type: Sequelize.INTEGER,
+        references:{
+          model: 'Kecamatans',
+          key: 'id'
+        }
+      },
       KelurahanId: {
         type: Sequelize.INTEGER,
         references:{
