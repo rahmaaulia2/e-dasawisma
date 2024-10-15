@@ -1,3 +1,4 @@
+const { Op, where } = require("sequelize");
 const { comparePassword } = require("../helper/bcrypt");
 const { generateToken } = require("../helper/jwt");
 const { User, DetailKK } = require("../models");
@@ -21,6 +22,7 @@ class Controller {
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
+
   static async addUser(req, res) {
     try {
       const {
@@ -63,7 +65,35 @@ class Controller {
       console.log(error);
       if (error.message === "User Not Found") {
         res.status(404).json({ message: "User Not Found" });
+      } else {
+        res.status(500).json({ message: "Internal Server Error" });
       }
+    }
+  }
+  static async getAllUsers(req, res) {
+    try {
+      const { filterRole, search } = req.query;
+      let paramsquery = {
+        attributes: {
+          exclude: ["password", "createdAt", "updatedAt"],
+        },
+      };
+      if (filterRole && search) {
+        paramsquery.where = {
+          [Op.and]: [
+            { role: filterRole },
+            { nama: { [Op.iLike]: `%${search}%` } },
+          ],
+        };
+      } else if (filterRole) {
+        paramsquery.where = { role: filterRole };
+      } else if (search) {
+        paramsquery.where = { nama: { [Op.iLike]: `%${search}%` } };
+      }
+      const users = await User.findAll(paramsquery);
+      res.status(200).json(users);
+    } catch (error) {
+      console.log(error);
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
@@ -139,11 +169,12 @@ class Controller {
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
-  static async addDetailKK(req, res) {
+
+  static async addKK(req, res) {
     try {
       const { id } = req.user;
       const findUser = await User.findByPk(id);
-      const KelurahanId = findUser.KelurahanId;
+      const { KelurahanId, KecamatanId } = findUser;
       const {
         namaLengkap,
         jenisKelamin,
@@ -192,7 +223,7 @@ class Controller {
         memilikiToga,
         jenisUsaha,
         pengeluaranBulanan,
-        keterangan
+        keterangan,
       } = req.body;
       // const jenisKelamin = dataForm.jenisKelamin
       // const tempatLahir = dataForm.tempatLahir
@@ -200,6 +231,7 @@ class Controller {
       const kartuKeluargaName = req.file.originalname; //file
       await DetailKK.create({
         UserId: id,
+        KecamatanId,
         KelurahanId,
         namaLengkap,
         jenisKelamin,
@@ -249,9 +281,137 @@ class Controller {
         memilikiToga,
         jenisUsaha,
         pengeluaranBulanan,
-        keterangan
+        keterangan,
       });
       res.status(201).json({ message: "Success input dasawisma" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+  static async getAllKK(req, res) {
+    try {
+      const { id } = req.user;
+      const findUser = await User.findByPk(id);
+      const { role, rt, rw, KelurahanId, KecamatanId } = findUser;
+      console.log(findUser,"ini findUser");
+      
+      const {
+        filterKelurahan,
+        filterGender,
+        filterStatusPerkawinan,
+        filterAgama,
+        filterRT,
+        filterRW,
+        filterPendidikan,
+        filterPekerjaan,
+        filterPenghasilan,
+        filterDokumen,
+        filterWus,
+        filterPus,
+        filterPusKB,
+        filterIbuHamil,
+        filterIbuMenyusui,
+        filterIbuBekerja,
+        filterBalita,
+        filterBbBayi,
+        filterAsiBayi,
+        filterBayiPosyandu,
+        filterBayiImunisasi,
+        filterBbTbBayi,
+        filterAnakSekolah,
+        filterAnakTidakSekolah,
+        filterAnakYatimPiatu,
+        filterLansia,
+        filterDifabel,
+        filterCacatMental,
+        filterTidakPengobatan,
+        filterBantuanPemerintah,
+        filterMerokok,
+        filterAirBersih,
+        filterJamban,
+        filterSeptictank,
+        filterPembuanganSampah,
+        filterKriteriaRumah,
+        filterStatusRumah,
+        filterKeagamaan,
+        filterSosial,
+        filterToga,
+        searchByNama,
+      } = req.query;
+      let paramsquery = {
+        attributes: { exclude: ["createdAt", "updatedAt"] },
+        where: {},
+      };
+      const filters = {
+        KelurahanId: filterKelurahan,
+        jenisKelamin: filterGender,
+        statusPerkawinan: filterStatusPerkawinan,
+        agama: filterAgama,
+        rt: filterRT,
+        rw: filterRW,
+        pendidikan: filterPendidikan,
+        pekerjaan: filterPekerjaan,
+        penghasilanSebulan: filterPenghasilan,
+        dokumenKependudukan: filterDokumen,
+        wusKeluarga: filterWus,
+        pusKeluarga: filterPus,
+        pusKB: filterPusKB,
+        ibuHamilKeluarga: filterIbuHamil,
+        ibuMenyusuiKeluarga: filterIbuMenyusui,
+        ibuBekerjaKeluarga: filterIbuBekerja,
+        balitaKeluarga: filterBalita,
+        bbBayiNormal: filterBbBayi,
+        asiBayiEkslusif: filterAsiBayi,
+        bayiPosyandu: filterBayiPosyandu,
+        bayiImunisasi: filterBayiImunisasi,
+        bbTbBayiNormal: filterBbTbBayi,
+        anakSekolah: filterAnakSekolah,
+        anakTidakSekolah: filterAnakTidakSekolah,
+        anakYatimPiatu: filterAnakYatimPiatu,
+        lansia: filterLansia,
+        keluargaDifabel: filterDifabel,
+        keluargaCacatMental: filterCacatMental,
+        keluargaTidakMendapatkanPengobatan: filterTidakPengobatan,
+        bantuanPemerintah: filterBantuanPemerintah,
+        keluargaMerokok: filterMerokok,
+        saranaAirBersih: filterAirBersih,
+        jambanKeluarga: filterJamban,
+        septicTank: filterSeptictank,
+        pembuanganSampah: filterPembuanganSampah,
+        kriteriaRumah: filterKriteriaRumah,
+        statusRumah: filterStatusRumah,
+        aktivitasKeagamaan: filterKeagamaan,
+        aktivitasSosial: filterSosial,
+        memilikiToga: filterToga,
+      };
+
+      // Add filters to paramsquery.where
+      for (const [key, value] of Object.entries(filters)) {
+        if (value) {
+          paramsquery.where[key] = value;
+        }
+      }
+
+      // Add search condition
+      if (searchByNama) {
+        paramsquery.where.namaLengkap = { [Op.iLike]: `%${searchByNama}%` };
+      }
+
+      if (role === "kecamatan") {
+        paramsquery.where = { KecamatanId: KecamatanId };
+      } else if (role === "kelurahan") {
+        paramsquery.where = { KelurahanId: KelurahanId };
+      } else if (role === "RW") {
+        paramsquery.where = { KelurahanId: KelurahanId, rw: rw };
+      } else if (role === "RT") {
+        paramsquery.where = { KelurahanId: KelurahanId, rt: rt };
+      } else if (role === "admin"){
+        delete paramsquery.where;
+      }
+
+      const kk = await DetailKK.findAll(paramsquery);
+      res.status(200).json(kk);
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Internal Server Error" });
@@ -326,7 +486,7 @@ class Controller {
         memilikiToga,
         jenisUsaha,
         pengeluaranBulanan,
-        keterangan
+        keterangan,
       } = req.body;
       const kartuKeluargaName = req.file.originalname; //file
       await DetailKK.update(
@@ -379,7 +539,7 @@ class Controller {
           memilikiToga,
           jenisUsaha,
           pengeluaranBulanan,
-          keterangan
+          keterangan,
         },
         {
           where: { id: idKK },

@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       DetailKK.belongsTo(models.User, {foreignKey: 'UserId'})
       DetailKK.belongsTo(models.Kelurahan, {foreignKey: 'KelurahanId'})
+      DetailKK.belongsTo(models.Kecamatan, {foreignKey: 'KecamatanId'})
     }
   }
   DetailKK.init({
@@ -20,6 +21,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       references:{
         model: 'User',
+        key: 'id'
+      }
+    },
+    KecamatanId: {
+      type: DataTypes.INTEGER,
+      references:{
+        model: 'Kecamatan',
         key: 'id'
       }
     },
