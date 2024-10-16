@@ -27,39 +27,39 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-router.post("/login", Controller.login);
-router.post("/addUser", Authentication, AuthorizationAdmin, Controller.addUser);
+router.post("/login", Controller.login); //login untuk semua role
+router.post("/addUser", Authentication, AuthorizationAdmin, Controller.addUser); //add user hanya untuk admin
 router.get(
   "/profile",
   Authentication,
   AuthorizationRole,
   Controller.getProfile
-); // get profile
+); // get profile untuk semua role
 
 router.get(
   "/users",
   Authentication,
   AuthorizationAdmin,
   Controller.getAllUsers
-);
+); // get all users hanya untuk admin
 router.get(
   "/users/:userId",
   Authentication,
   AuthorizationAdmin,
   Controller.getUser
-); // get user by id
+); // get user by id hanya untuk admin
 router.patch(
   "/updateUser/:userId",
   Authentication,
   AuthorizationAdmin,
   Controller.updateUser
-);
+); // update user hanya untuk admin
 router.delete(
   "/deleteUser/:userId",
   Authentication,
   AuthorizationAdmin,
   Controller.deleteUser
-);
+); // delete user hanya untuk admin
 
 router.post(
   "/addKK",
@@ -67,26 +67,26 @@ router.post(
   Authentication,
   AuthorizationUser,
   Controller.addKK
-);
-router.get("/KK", Authentication, AuthorizationRole, Controller.getAllKK);
+); // add KK hanya untuk user dan admin(kalo perlu)
+router.get("/KK", Authentication, AuthorizationRole, Controller.getAllKK); // get all KK untuk semua role kecuali user
 router.get(
   "/KK/:idKK",
   Authentication,
   AuthorizationRole,
   Controller.getDetailKK
-);
+); // get detail KK untuk semua role kecuali user
 router.patch(
   "/KK/:idKK",
   upload.single("kartuKeluarga"),
   Authentication,
   AuthorizationRole,
   Controller.updateDetailKK
-);
+); // update detail KK untuk semua role kecuali user
 router.delete(
   "/KK/:idKK",
   Authentication,
   AuthorizationRole,
   Controller.deleteKK
-);
+); // delete KK untuk semua role kecuali user
 
 module.exports = router;

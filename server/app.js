@@ -18,13 +18,18 @@ if (process.env.NODE_ENV !== "production") {
 const express = require("express");
 const router = require("./routes");
 const cors = require("cors");
+const ErrorHandler = require("./helper/errorhandler");
 const app = express();
 const port = 3000;
 
 app.use(cors());
+// app.use(express.static("uploads"));
+// app.use(express.static("public"));
+// app.use(express.static("views"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/", router);
+app.use(ErrorHandler)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
