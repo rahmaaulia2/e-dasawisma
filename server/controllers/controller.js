@@ -4,26 +4,25 @@ const { generateToken } = require("../helper/jwt");
 const { User, DetailKK } = require("../models");
 
 class Controller {
-  static async login(req, res) {
+  static async login(req, res, next) {
     try {
       const { nama, password } = req.body;
       const user = await User.findOne({ where: { nama } });
       if (!user) {
-        throw { message: "Invalid Username/Password" };
+        throw { name: "InvalidUsername/Password" };
       }
       const isValidPassword = comparePassword(password, user.password);
       if (!isValidPassword) {
-        throw { message: "Invalid Username/Password" };
+        throw { name: "InvalidUsername/Password" };
       }
-      const access_token = await generateToken(user);
+      const access_token = generateToken(user);
       res.status(200).json({ access_token });
     } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: "Internal Server Error" });
+      next(error);
     }
   }
 
-  static async addUser(req, res) {
+  static async addUser(req, res,next) {
     try {
       const {
         nama,
@@ -32,6 +31,8 @@ class Controller {
         alamat,
         KecamatanId,
         KelurahanId,
+        rt,
+        rw,
         role,
         password,
       } = req.body;
@@ -42,35 +43,33 @@ class Controller {
         alamat,
         KecamatanId,
         KelurahanId,
+        rt,
+        rw,
         role,
         password,
       });
       res.status(201).json({ message: "User Created" });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Internal Server Error" });
+      next(error);
     }
   }
-  static async getUser(req, res) {
+  static async getUser(req, res,next) {
     try {
       const { userId } = req.params;
       const user = await User.findByPk(userId, {
         attributes: { exclude: ["password", "createdAt", "updatedAt"] },
       });
       if (!user) {
-        throw { message: "User Not Found" };
+        throw { name: "UserNotFound" };
       }
       res.status(200).json(user);
     } catch (error) {
       console.log(error);
-      if (error.message === "User Not Found") {
-        res.status(404).json({ message: "User Not Found" });
-      } else {
-        res.status(500).json({ message: "Internal Server Error" });
-      }
+      next(error);
     }
   }
-  static async getAllUsers(req, res) {
+  static async getAllUsers(req, res,next) {
     try {
       const { filterRole, search } = req.query;
       let paramsquery = {
@@ -94,10 +93,10 @@ class Controller {
       res.status(200).json(users);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Internal Server Error" });
+      next(error);
     }
   }
-  static async updateUser(req, res) {
+  static async updateUser(req, res,next) {
     try {
       const {
         nama,
@@ -126,51 +125,45 @@ class Controller {
         }
       );
       if (!user) {
-        throw { message: "User Not Found" };
+        throw { name: "UserNotFound" };
       }
       res.status(200).json({ message: "User Updated" });
     } catch (error) {
       console.log(error);
-      if (error.message === "User Not Found") {
-        res.status(404).json({ message: "User Not Found" });
-      }
-      res.status(500).json({ message: "Internal Server Error" });
+      next(error);
     }
   }
-  static async deleteUser(req, res) {
+  static async deleteUser(req, res,next) {
     try {
       const { userId } = req.params;
       const user = await User.findByPk(userId);
       if (!user) {
-        throw { message: "User Not Found" };
+        throw { name: "UserNotFound" };
       }
       await user.destroy();
       res.status(200).json({ message: "User Deleted" });
     } catch (error) {
       console.log(error);
-      if (error.message === "User Not Found") {
-        res.status(404).json({ message: "User Not Found" });
-      }
-      res.status(500).json({ message: "Internal Server Error" });
+      next(error);
     }
   }
-  static async getProfile(req, res) {
+  static async getProfile(req, res,next) {
     try {
       const { id } = req.user;
       const user = await User.findByPk(id, {
         attributes: { exclude: ["password", "createdAt", "updatedAt"] },
       });
       if (!user) {
-        throw { message: "User Not Found" };
+        throw { name: "UserNotFound" };
       }
       res.status(200).json(user);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Internal Server Error" });
+      next(error);
     }
   }
 
-  static async addKK(req, res) {
+  static async addKK(req, res,next) {
     try {
       const { id } = req.user;
       const findUser = await User.findByPk(id);
@@ -225,9 +218,6 @@ class Controller {
         pengeluaranBulanan,
         keterangan,
       } = req.body;
-      // const jenisKelamin = dataForm.jenisKelamin
-      // const tempatLahir = dataForm.tempatLahir
-      // const tanggalLahir = dataForm.tanggalLahir
       const kartuKeluargaName = req.file.originalname; //file
       await DetailKK.create({
         UserId: id,
@@ -285,17 +275,19 @@ class Controller {
       });
       res.status(201).json({ message: "Success input dasawisma" });
     } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: "Internal Server Error" });
+      console.log(error)
+      next(error);
     }
   }
-  static async getAllKK(req, res) {
+  static async getAllKK(req, res,next) {
     try {
       const { id } = req.user;
       const findUser = await User.findByPk(id);
       const { role, rt, rw, KelurahanId, KecamatanId } = findUser;
-      console.log(findUser,"ini findUser");
-      
+      // console.log(role, rt, "ini role");
+
+      // console.log(findUser, "ini findUser");
+
       const {
         filterKelurahan,
         filterGender,
@@ -386,38 +378,42 @@ class Controller {
         memilikiToga: filterToga,
       };
 
-      // Add filters to paramsquery.where
+      // menambahkan filter yang tidak kosong
       for (const [key, value] of Object.entries(filters)) {
         if (value) {
           paramsquery.where[key] = value;
         }
       }
 
-      // Add search condition
+      // menambahkan filter search by nama
       if (searchByNama) {
         paramsquery.where.namaLengkap = { [Op.iLike]: `%${searchByNama}%` };
       }
 
-      if (role === "kecamatan") {
-        paramsquery.where = { KecamatanId: KecamatanId };
-      } else if (role === "kelurahan") {
-        paramsquery.where = { KelurahanId: KelurahanId };
-      } else if (role === "RW") {
-        paramsquery.where = { KelurahanId: KelurahanId, rw: rw };
-      } else if (role === "RT") {
-        paramsquery.where = { KelurahanId: KelurahanId, rt: rt };
-      } else if (role === "admin"){
-        delete paramsquery.where;
+      // mendefinisikan role berdasarkan kondisi
+      const roleConditions = {
+        Kecamatan: { KecamatanId },
+        Kelurahan: { KelurahanId },
+        RW: { KelurahanId, rw },
+        RT: { KelurahanId, rt },
+      };
+
+      // menambahkan kondisi role jika bukan admin
+      if (role !== "admin") {
+        paramsquery.where = {
+          ...paramsquery.where,
+          ...(roleConditions[role] || { UserId: id }),
+        };
       }
 
       const kk = await DetailKK.findAll(paramsquery);
       res.status(200).json(kk);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Internal Server Error" });
+      next(error);
     }
   }
-  static async getDetailKK(req, res) {
+  static async getDetailKK(req, res,next) {
     try {
       const { idKK } = req.params;
       const detailKK = await DetailKK.findByPk(idKK, {
@@ -429,13 +425,10 @@ class Controller {
       res.status(200).json(detailKK);
     } catch (error) {
       console.log(error);
-      if (error.name === "DetailKKNotFound") {
-        res.status(404).json({ message: "Detail KK Not Found" });
-      }
-      res.status(500).json({ message: "Internal Server Error" });
+      next(error);
     }
   }
-  static async updateDetailKK(req, res) {
+  static async updateDetailKK(req, res,next) {
     try {
       const { idKK } = req.params;
       const {
@@ -547,25 +540,21 @@ class Controller {
       );
       res.status(200).json({ message: "Detail KK Updated" });
     } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: "Internal Server Error" });
+      next(error);
     }
   }
-  static async deleteKK(req, res) {
+  static async deleteKK(req, res,next) {
     try {
       const { idKK } = req.params;
       const detailKK = await DetailKK.findByPk(idKK);
       if (!detailKK) {
-        throw { name: "kkNotFound" };
+        throw { name: "DetailKKNotFound" };
       }
       await detailKK.destroy();
       res.status(200).json({ message: "Detail KK Deleted" });
     } catch (error) {
       console.log(error);
-      if (error.name === "kkNotFound") {
-        res.status(404).json({ message: "Detail KK Not Found" });
-      }
-      res.status(500).json({ message: "Internal Server Error" });
+      next(error);
     }
   }
 }

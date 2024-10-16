@@ -20,7 +20,7 @@ const AuthorizationRole = async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Internal Server Error" });
+    next(error);
   }
 };
 const AuthorizationAdmin = async (req, res, next) => {
@@ -37,7 +37,7 @@ const AuthorizationAdmin = async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Internal Server Error" });
+    next(error);
   }
 };
 
@@ -51,11 +51,11 @@ const AuthorizationUser = async (req, res, next) => {
     if (role === "user" || role === "admin") {
       next();
     } else {
-      res.status(401).json({ message: "Unauthorized" });
+      res.status(401).json({ name: "Unauthorized" });
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Internal Server Error" });
+    next(error);
   }
 };
 

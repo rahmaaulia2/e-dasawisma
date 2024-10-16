@@ -23,13 +23,7 @@ const Authentication = (req, res, next) => {
     next();
   } catch (error) {
     console.log(error);
-    if (error.name === "Unauthenticated") {
-      return res.status(401).json({ message: "Unauthenticated" });
-    } else if (error.name === "InvalidToken") {
-      return res.status(401).json({ message: "Invalid Token" });
-    } else {
-      res.status(500).json({ message: "Internal Server Error" });
-    }
+    next(error);
   }
 };
 
