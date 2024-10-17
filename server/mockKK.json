@@ -1,8 +1,8 @@
 [
     {
       "UserId": 1,
-      "KecamatanId" : 1,
-      "KelurahanId": 3,
+      "KecamatanCode" : "32.72.05",
+      "KelurahanCode": "32.72.05.1001",
       "namaLengkap": "Ahmad Surya",
       "jenisKelamin": "LAKI-LAKI",
       "tempatLahir": "Jakarta",
@@ -55,8 +55,8 @@
     },
     {
       "UserId": 2,
-      "KecamatanId" : 2,
-      "KelurahanId": 1,
+      "KecamatanCode" : "32.72.04",
+      "KelurahanCode": "32.72.04.1005",
       "namaLengkap": "Siti Aminah",
       "jenisKelamin": "PEREMPUAN",
       "tempatLahir": "Bandung",
@@ -109,8 +109,8 @@
     },
     {
       "UserId": 3,
-      "KecamatanId" : 3,
-      "KelurahanId": 4,
+      "KecamatanCode" : "32.72.04",
+      "KelurahanCode": "32.72.04.1001",
       "namaLengkap": "Budi Santoso",
       "jenisKelamin": "LAKI-LAKI",
       "tempatLahir": "Surabaya",
@@ -163,8 +163,8 @@
     },
     {
       "UserId": 4,
-      "KecamatanId" : 4,
-      "KelurahanId": 2,
+      "KecamatanCode" : "32.72.03",
+      "KelurahanCode": "32.72.03.1001",
       "namaLengkap": "Maria Dewi",
       "jenisKelamin": "PEREMPUAN",
       "tempatLahir": "Denpasar",
@@ -217,8 +217,8 @@
     },
     {
       "UserId": 5,
-      "KecamatanId" : 5,
-      "KelurahanId": 5,
+      "KecamatanCode" : "32.72.01",
+      "KelurahanCode": "32.72.01.1002",
       "namaLengkap": "Dewi Lestari",
       "jenisKelamin": "PEREMPUAN",
       "tempatLahir": "Semarang",
@@ -270,8 +270,8 @@
       "keterangan": "-"
     }, {
         "UserId": 6,
-        "KecamatanId" : 6,
-        "KelurahanId": 1,
+        "KecamatanCode" : "32.72.07",
+        "KelurahanCode": "32.72.07.1004",
         "namaLengkap": "Siti Aminah",
         "jenisKelamin": "PEREMPUAN",
         "tempatLahir": "Bandung",
@@ -323,8 +323,8 @@
         "keterangan": "-"
     }, {
         "UserId": 7,
-        "KecamatanId" : 7,
-        "KelurahanId": 2,
+        "KecamatanCode" : "32.72.02",
+        "KelurahanCode": "32.72.02.1006",
         "namaLengkap": "Budi Santoso",
         "jenisKelamin": "LAKI-LAKI",
         "tempatLahir": "Surabaya",
@@ -376,8 +376,8 @@
         "keterangan": "-"
     }, {
         "UserId": 8,
-        "KecamatanId" : 3,
-        "KelurahanId": 3,
+        "KecamatanCode" : "32.72.05",
+        "KelurahanCode": "32.72.05.1003",
         "namaLengkap": "Maria Dewi",
         "jenisKelamin": "PEREMPUAN",
         "tempatLahir": "Denpasar",
@@ -429,8 +429,8 @@
         "keterangan": "-"
     }, {
         "UserId": 9,
-        "KecamatanId" : 6,
-        "KelurahanId": 4,
+        "KecamatanCode" : "32.72.01",
+        "KelurahanCode": "32.72.01.1003",
         "namaLengkap": "Dewi Lestari",
         "jenisKelamin": "PEREMPUAN",
         "tempatLahir": "Semarang",
@@ -482,8 +482,8 @@
         "keterangan": "-"
     },{
         "UserId": 10,
-        "KecamatanId" : 4,
-        "KelurahanId": 5,
+        "KecamatanCode" : "32.72.03",
+        "KelurahanCode": "32.72.03.1002",
         "namaLengkap": "Ahmad Surya",
         "jenisKelamin": "LAKI-LAKI",
         "tempatLahir": "Jakarta",

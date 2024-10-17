@@ -6,11 +6,16 @@ module.exports = {
       id: {
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true,
         type: Sequelize.INTEGER
       },
+      KemendagriKec: {
+        type: Sequelize.STRING(20),
+        primaryKey: true,
+        allowNull: false,
+      },
       nama: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(20),
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

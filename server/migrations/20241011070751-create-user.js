@@ -10,42 +10,51 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       nama: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(30),
+        allowNull: false,
+        unique: true,
       },
       email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(50),
+        allowNull: false,
       },
       noHp: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(15),
+        allowNull: false,
       },
       alamat: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(100),
+        allowNull: false,
       },
-      KecamatanId: {
-        type: Sequelize.INTEGER,
+      KecamatanCode: {
+        type: Sequelize.STRING(20),
         references :{
           model : 'Kecamatans',
-          key : 'id'
+          key : 'KemendagriKec'
         }
       },
-      KelurahanId: {
-        type: Sequelize.INTEGER,
+      KelurahanCode: {
+        type: Sequelize.STRING(20),
         references :{
           model : 'Kelurahans',
-          key : 'id'
+          key : 'KemendagriKel'
         }
       },
       rt: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(3),
+        allowNull: false,
       },
       rw: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(3),
+        allowNull: false,
       },
       role: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(10),
+        allowNull: false,
       },
       password: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(70),
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

@@ -1,193 +1,242 @@
-'use strict';
+"use strict";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('DetailKKs', {
+    await queryInterface.createTable("DetailKKs", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       UserId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Users',
-          key: 'id'
-        }
+          model: "Users",
+          key: "id",
+        },
       },
-      KecamatanId :{
-        type: Sequelize.INTEGER,
-        references:{
-          model: 'Kecamatans',
-          key: 'id'
-        }
+      KecamatanCode: {
+        type: Sequelize.STRING(20),
+        references: {
+          model: "Kecamatans",
+          key: "KemendagriKec",
+        },
       },
-      KelurahanId: {
-        type: Sequelize.INTEGER,
-        references:{
-          model: 'Kelurahans',
-          key: 'id'
-        }
+      KelurahanCode: {
+        type: Sequelize.STRING(20),
+        references: {
+          model: "Kelurahans",
+          key: "KemendagriKel",
+        },
       },
       namaLengkap: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(30),
+        allowNull: false,
       },
       jenisKelamin: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(15),
+        allowNull: false,
       },
       tempatLahir: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(15),
+        allowNull: false,
       },
       tanggalLahir: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        allowNull: false,
       },
       kartuKeluarga: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(30),
+        allowNull: false,
       },
       noKKKTP: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(20),
+        allowNull: false,
       },
       statusPerkawinan: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(20),
+        allowNull: false,
       },
       agama: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(15),
+        allowNull: false,
       },
       rt: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(3),
+        allowNull: false,
       },
       rw: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(3),
+        allowNull: false,
       },
       alamat: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(150),
+        allowNull: false,
       },
       pendidikan: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(15),
+        allowNull: false,
       },
       pekerjaan: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(30),
+        allowNull: false,
       },
       penghasilanSebulan: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(40),
+        allowNull: false,
       },
       dokumenKependudukan: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(15),
+        allowNull: false,
       },
       wusKeluarga: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(15),
+        allowNull: false,
       },
       pusKeluarga: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(5),
+        allowNull: false,
       },
       pusKB: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(30),
+        allowNull: false,
       },
       ibuHamilKeluarga: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(15),
+        allowNull: false,
       },
       ibuMenyusuiKeluarga: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(15),
+        allowNull: false,
       },
       ibuBekerjaKeluarga: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(15),
+        allowNull: false,
       },
       balitaKeluarga: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(20),
+        allowNull: false,
       },
       bbBayiNormal: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(20),
+        allowNull: false,
       },
       asiBayiEkslusif: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(20),
+        allowNull: false,
       },
       bayiPosyandu: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(20),
+        allowNull: false,
       },
       bayiImunisasi: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(20),
+        allowNull: false,
       },
       bbTbBayiNormal: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(20),
+        allowNull: false,
       },
       riwayatPenyakitBayi: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(30),
+        allowNull: false,
       },
       anakSekolah: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(30),
+        allowNull: false,
       },
       anakTidakSekolah: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(50),
+        allowNull: false,
       },
       anakYatimPiatu: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(30),
+        allowNull: false,
       },
       lansia: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(15),
+        allowNull: false,
       },
       keluargaDifabel: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(15),
+        allowNull: false,
       },
       keluargaCacatMental: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(15),
+        allowNull: false,
       },
       keluargaTidakMendapatkanPengobatan: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(15),
+        allowNull: false,
       },
       bantuanPemerintah: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(50),
+        allowNull: false,
       },
       keluargaMerokok: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(15),
+        allowNull: false,
       },
       saranaAirBersih: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(15),
+        allowNull: false,
       },
       jambanKeluarga: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(5),
+        allowNull: false,
       },
       septicTank: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(5),
+        allowNull: false,
       },
       pembuanganSampah: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(5),
+        allowNull: false,
       },
       kriteriaRumah: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(20),
+        allowNull: false,
       },
       statusRumah: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(15),
+        allowNull: false,
       },
       aktivitasKeagamaan: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(5),
+        allowNull: false,
       },
       aktivitasSosial: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(5),
+        allowNull: false,
       },
       memilikiToga: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(5),
+        allowNull: false,
       },
       jenisUsaha: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(30),
+        allowNull: false,
       },
       pengeluaranBulanan: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(30),
+        allowNull: false,
       },
       keterangan: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(150),
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('DetailKKs');
-  }
+    await queryInterface.dropTable("DetailKKs");
+  },
 };

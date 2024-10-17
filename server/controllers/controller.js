@@ -1,7 +1,8 @@
 const { Op, where } = require("sequelize");
-const { comparePassword } = require("../helper/bcrypt");
+const { comparePassword, hashPassword } = require("../helper/bcrypt");
 const { generateToken } = require("../helper/jwt");
 const { User, DetailKK } = require("../models");
+const path = require("path");
 
 class Controller {
   static async login(req, res, next) {
@@ -22,15 +23,15 @@ class Controller {
     }
   }
 
-  static async addUser(req, res,next) {
+  static async addUser(req, res, next) {
     try {
       const {
         nama,
         email,
         noHp,
         alamat,
-        KecamatanId,
-        KelurahanId,
+        KecamatanCode,
+        KelurahanCode,
         rt,
         rw,
         role,
@@ -41,8 +42,8 @@ class Controller {
         email,
         noHp,
         alamat,
-        KecamatanId,
-        KelurahanId,
+        KecamatanCode,
+        KelurahanCode,
         rt,
         rw,
         role,
@@ -54,7 +55,7 @@ class Controller {
       next(error);
     }
   }
-  static async getUser(req, res,next) {
+  static async getUser(req, res, next) {
     try {
       const { userId } = req.params;
       const user = await User.findByPk(userId, {
@@ -69,7 +70,7 @@ class Controller {
       next(error);
     }
   }
-  static async getAllUsers(req, res,next) {
+  static async getAllUsers(req, res, next) {
     try {
       const { filterRole, search } = req.query;
       let paramsquery = {
@@ -96,29 +97,30 @@ class Controller {
       next(error);
     }
   }
-  static async updateUser(req, res,next) {
+  static async updateUser(req, res, next) {
     try {
       const {
         nama,
         email,
         noHp,
         alamat,
-        KecamatanId,
-        KelurahanId,
+        KecamatanCode,
+        KelurahanCode,
         role,
         password,
       } = req.body;
       const { userId } = req.params;
+      const newPass = hashPassword(password);
       const user = await User.update(
         {
           nama,
           email,
           noHp,
           alamat,
-          KecamatanId,
-          KelurahanId,
+          KecamatanCode,
+          KelurahanCode,
           role,
-          password,
+          password : newPass,
         },
         {
           where: { id: userId },
@@ -133,7 +135,7 @@ class Controller {
       next(error);
     }
   }
-  static async deleteUser(req, res,next) {
+  static async deleteUser(req, res, next) {
     try {
       const { userId } = req.params;
       const user = await User.findByPk(userId);
@@ -147,7 +149,7 @@ class Controller {
       next(error);
     }
   }
-  static async getProfile(req, res,next) {
+  static async getProfile(req, res, next) {
     try {
       const { id } = req.user;
       const user = await User.findByPk(id, {
@@ -163,11 +165,11 @@ class Controller {
     }
   }
 
-  static async addKK(req, res,next) {
+  static async addKK(req, res, next) {
     try {
       const { id } = req.user;
       const findUser = await User.findByPk(id);
-      const { KelurahanId, KecamatanId } = findUser;
+      const { KelurahanCode, KecamatanCode } = findUser;
       const {
         namaLengkap,
         jenisKelamin,
@@ -221,8 +223,8 @@ class Controller {
       const kartuKeluargaName = req.file.originalname; //file
       await DetailKK.create({
         UserId: id,
-        KecamatanId,
-        KelurahanId,
+        KecamatanCode,
+        KelurahanCode,
         namaLengkap,
         jenisKelamin,
         tempatLahir,
@@ -275,15 +277,15 @@ class Controller {
       });
       res.status(201).json({ message: "Success input dasawisma" });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       next(error);
     }
   }
-  static async getAllKK(req, res,next) {
+  static async getAllKK(req, res, next) {
     try {
       const { id } = req.user;
       const findUser = await User.findByPk(id);
-      const { role, rt, rw, KelurahanId, KecamatanId } = findUser;
+      const { role, rt, rw, KelurahanCode, KecamatanCode } = findUser;
       // console.log(role, rt, "ini role");
 
       // console.log(findUser, "ini findUser");
@@ -336,7 +338,7 @@ class Controller {
         where: {},
       };
       const filters = {
-        KelurahanId: filterKelurahan,
+        KelurahanCode: filterKelurahan,
         jenisKelamin: filterGender,
         statusPerkawinan: filterStatusPerkawinan,
         agama: filterAgama,
@@ -392,10 +394,10 @@ class Controller {
 
       // mendefinisikan role berdasarkan kondisi
       const roleConditions = {
-        Kecamatan: { KecamatanId },
-        Kelurahan: { KelurahanId },
-        RW: { KelurahanId, rw },
-        RT: { KelurahanId, rt },
+        Kecamatan: { KecamatanCode },
+        Kelurahan: { KelurahanCode },
+        RW: { KelurahanCode, rw },
+        RT: { KelurahanCode, rt },
       };
 
       // menambahkan kondisi role jika bukan admin
@@ -413,7 +415,7 @@ class Controller {
       next(error);
     }
   }
-  static async getDetailKK(req, res,next) {
+  static async getDetailKK(req, res, next) {
     try {
       const { idKK } = req.params;
       const detailKK = await DetailKK.findByPk(idKK, {
@@ -428,7 +430,7 @@ class Controller {
       next(error);
     }
   }
-  static async updateDetailKK(req, res,next) {
+  static async updateDetailKK(req, res, next) {
     try {
       const { idKK } = req.params;
       const {
@@ -543,7 +545,7 @@ class Controller {
       next(error);
     }
   }
-  static async deleteKK(req, res,next) {
+  static async deleteKK(req, res, next) {
     try {
       const { idKK } = req.params;
       const detailKK = await DetailKK.findByPk(idKK);
@@ -552,6 +554,29 @@ class Controller {
       }
       await detailKK.destroy();
       res.status(200).json({ message: "Detail KK Deleted" });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  }
+  static async getUploads(req, res, next) {
+    try {
+      const { filename } = req.params;
+      const findData = await DetailKK.findOne({
+        where: { kartuKeluarga: filename },
+      });
+      if (!findData) {
+        throw { name: "DetailKKNotFound" };
+      }
+
+      const filePath = path.join(__dirname, "../uploads", filename);
+      console.log(filePath);
+
+      res.sendFile(filePath, (err) => {
+        if (err) {
+          res.status(404).send("File not found");
+        }
+      });
     } catch (error) {
       console.log(error);
       next(error);

@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
     cb(null, uploadDir);
   },
   filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
+    cb(null, `${file.originalname}`);
   },
 });
 
@@ -88,5 +88,11 @@ router.delete(
   AuthorizationRole,
   Controller.deleteKK
 ); // delete KK untuk semua role kecuali user
+router.get(
+  "/uploads/:filename",
+  Authentication,
+  AuthorizationUser,
+  Controller.getUploads
+);
 
 module.exports = router;
