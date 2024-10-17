@@ -44,11 +44,17 @@ const AuthorizationAdmin = async (req, res, next) => {
 const AuthorizationUser = async (req, res, next) => {
   try {
     const { id, role } = req.user;
+    // console.log(req.user, "authorization user");
+    
     const verifyUser = await User.findByPk(id);
+    // console.log(verifyUser, "verify user");
+    
     if (!verifyUser) {
       throw { name: "Unauthorized" };
     }
-    if (role === "user" || role === "admin") {
+    // console.log(verifyUser.id, id, role);
+    
+    if (verifyUser.id === id||role === "user" || role === "admin" ) {
       next();
     } else {
       res.status(401).json({ name: "Unauthorized" });
