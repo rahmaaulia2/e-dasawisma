@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State untuk menu di mobile
   const [isOpen, setIsOpen] = useState(false); // State untuk dropdown layanan
+  const navigate = useNavigate()
   
   const toggleDropdown = () => {
     setIsOpen(!isOpen); // Membuka atau menutup dropdown layanan
@@ -12,6 +13,11 @@ export default function Navbar() {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen); // Membuka atau menutup menu di mobile
   };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate('/')
+  }
 
   return (
     <>
@@ -132,7 +138,17 @@ export default function Navbar() {
                     </a>
                   </div>
                 </div>
-                <Link to={"/leubeut"}>
+                {localStorage.getItem('access_token')?(
+                  <button
+                  onClick={handleLogout}
+                    type="button"
+                    title="login"
+                    className="w-full py-2 px-6 text-center rounded-full transition bg-yellow-300 hover:bg-yellow-100 active:bg-yellow-400 focus:bg-yellow-300 sm:w-max"
+                  >
+                    <span className="block text-yellow-900 font-semibold text-sm">
+                      Logout
+                    </span>
+                  </button>):(<Link to={"/login"}>
                   <button
                     type="button"
                     title="login"
@@ -142,7 +158,8 @@ export default function Navbar() {
                       Login
                     </span>
                   </button>
-                </Link>
+                </Link>)}
+                
               </div>
             </div>
           </div>
