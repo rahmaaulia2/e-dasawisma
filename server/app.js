@@ -20,7 +20,7 @@ const router = require("./routes");
 const cors = require("cors");
 const ErrorHandler = require("./helper/errorhandler");
 const app = express();
-const port = 3000;
+const port = process.env.port || 3000;
 
 app.use(cors());
 app.use(express.static("uploads"));
