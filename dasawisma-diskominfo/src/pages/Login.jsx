@@ -1,15 +1,68 @@
+import { useState } from "react";
+import ServerApi from "../helper/ServerApi";
+import { useNavigate } from "react-router-dom";
+
 export default function Login() {
+  const navigate = useNavigate();
+  const [nama, setNama] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      setIsLoading(true);
+      const response = await fetch(`${ServerApi}login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Tambahkan header
+        },
+        body: JSON.stringify({ nama, password }), // Pastikan body dalam format JSON
+      });
+
+      // Cek apakah respons OK
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json(); // Ambil dan parse JSON
+      console.log(data); // Tampilkan respons dari server
+      let tokens = data.access_token;
+      localStorage.setItem("access_token", tokens);
+      setIsLoading(false);
+      navigate("/");
+    } catch (error) {
+      console.error("Error during fetch:", error); // Tampilkan error di console
+    }
+
+    // if (response.status === 200) {
+    //   localStorage.setItem('token', response.data.token);
+    //   localStorage.setItem('nama', response.data.nama);
+    //   window.location.href = '/dashboard';
+    // } else {
+    //   alert('Username atau password salah');
+    // }
+  };
+  if (isLoading) {
+    return (
+      <>
+        <dotlottie-player
+          src="https://lottie.host/47837f57-413f-4424-9cc0-873217624825/97zYatYfkI.json"
+          background="transparent"
+          speed="1"
+          style={{ width: 300, height: 300}}
+          loop
+          autoPlay
+        ></dotlottie-player>
+      </>
+    );
+  }
   return (
     <>
       <section className="bg-gradient-to-r from-gray-100 via-[#bce1ff] to-gray-100 dark:bg-gray-900">
         <div className="container px-6 py-24 mx-auto lg:py-32 min-h-screen">
           <div className="lg:flex">
             <div className="lg:w-1/2">
-              <img
-                className="w-auto h-10 sm:h-14"
-                src="logo.png"
-                alt=""
-              />
+              <img className="w-auto h-10 sm:h-14" src="logo.png" alt="" />
               <h1 className="mt-4 text-gray-600 dark:text-gray-300 md:text-lg">
                 Wilujeng Sumping
               </h1>
@@ -18,7 +71,11 @@ export default function Login() {
               </h1>
             </div>
             <div className="mt-8 lg:w-1/2 lg:mt-0">
-              <form className="w-full lg:max-w-xl">
+              <form
+                className="w-full lg:max-w-xl"
+                action="post"
+                onSubmit={handleLogin}
+              >
                 <div className="relative flex items-center">
                   <span className="absolute">
                     <svg
@@ -40,6 +97,7 @@ export default function Login() {
                     type="text"
                     className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                     placeholder="Username"
+                    onChange={(e) => setNama(e.target.value)}
                   />
                 </div>
                 <div className="relative flex items-center mt-4">
@@ -63,6 +121,7 @@ export default function Login() {
                     type="password"
                     className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                     placeholder="Password"
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
                 <div className="mt-8 md:flex md:items-center">

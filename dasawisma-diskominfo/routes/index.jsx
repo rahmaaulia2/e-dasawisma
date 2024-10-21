@@ -31,7 +31,7 @@ const router = createBrowserRouter([
       element :<TableLaporan/>
     }]
   },{
-    path : "/leubeut",
+    path : "/login",
     element : <Login/>
   }
 ]);
