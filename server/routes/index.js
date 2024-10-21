@@ -27,6 +27,9 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+router.get("/test", (req, res) => {
+  res.send("ini router test");
+});
 router.post("/login", Controller.login); //login untuk semua role
 router.post("/addUser", Authentication, AuthorizationAdmin, Controller.addUser); //add user hanya untuk admin
 router.get(
