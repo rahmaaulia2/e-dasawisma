@@ -17,7 +17,7 @@ class Controller {
         throw { name: "InvalidUsername/Password" };
       }
       const access_token = generateToken(user);
-      res.status(200).json({ access_token });
+      res.status(200).json({ access_token, role: user.role });
     } catch (error) {
       next(error);
     }
