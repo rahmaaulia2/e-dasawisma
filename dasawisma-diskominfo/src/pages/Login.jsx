@@ -20,14 +20,21 @@ export default function Login() {
       });
 
       // Cek apakah respons OK
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
       const data = await response.json(); // Ambil dan parse JSON
+      if (!response.ok) {
+        setIsLoading(false);
+        Swal.fire({
+          // title: "Good job!",
+          text: `${data.message}`,
+          icon: "error",
+        });
+      }
       console.log(data); // Tampilkan respons dari server
       let tokens = data.access_token;
-      localStorage.setItem("access_token", tokens);
+      // console.log(tokens);
+      if (tokens !== undefined) {
+        localStorage.setItem("access_token", tokens);
+      }
       setIsLoading(false);
       navigate("/");
     } catch (error) {
@@ -45,14 +52,16 @@ export default function Login() {
   if (isLoading) {
     return (
       <>
-        <dotlottie-player
-          src="https://lottie.host/47837f57-413f-4424-9cc0-873217624825/97zYatYfkI.json"
-          background="transparent"
-          speed="1"
-          style={{ width: 300, height: 300}}
-          loop
-          autoPlay
-        ></dotlottie-player>
+        <div className="flex items-center justify-center min-h-screen">
+          <dotlottie-player
+            src="https://lottie.host/47837f57-413f-4424-9cc0-873217624825/97zYatYfkI.json"
+            background="transparent"
+            speed="1"
+            style={{ width: 300, height: 300 }}
+            loop
+            autoPlay
+          ></dotlottie-player>
+        </div>
       </>
     );
   }
@@ -128,12 +137,12 @@ export default function Login() {
                   <button className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg md:w-1/2 hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
                     Sign in
                   </button>
-                  <a
+                  {/* <a
                     href="#"
                     className="inline-block mt-4 text-center text-blue-500 md:mt-0 md:mx-6 hover:underline dark:text-blue-400"
                   >
                     Forgot your password?
-                  </a>
+                  </a> */}
                 </div>
               </form>
             </div>
