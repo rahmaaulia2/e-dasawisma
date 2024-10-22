@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ServerApi from "../helper/ServerApi";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -34,6 +34,7 @@ export default function Login() {
       // console.log(tokens);
       if (tokens !== undefined) {
         localStorage.setItem("access_token", tokens);
+        localStorage.setItem("role", data.role);
       }
       setIsLoading(false);
       navigate("/");
@@ -71,6 +72,21 @@ export default function Login() {
         <div className="container px-6 py-24 mx-auto lg:py-32 min-h-screen">
           <div className="lg:flex">
             <div className="lg:w-1/2">
+          <Link
+            to={"/"}
+            className="inline-block p-1 rounded bg-gray-500/10 text-gray-500 font-medium text-[12px] leading-none"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              x="px"
+              y="0px"
+              width="24"
+              height="24"
+              viewBox="0 0 48 48"
+            >
+              <path d="M 24 4 C 12.972066 4 4 12.972074 4 24 C 4 35.027926 12.972066 44 24 44 C 35.027934 44 44 35.027926 44 24 C 44 12.972074 35.027934 4 24 4 z M 24 7 C 33.406615 7 41 14.593391 41 24 C 41 33.406609 33.406615 41 24 41 C 14.593385 41 7 33.406609 7 24 C 7 14.593391 14.593385 7 24 7 z M 22.470703 16.486328 A 1.50015 1.50015 0 0 0 21.439453 16.939453 L 15.439453 22.939453 A 1.50015 1.50015 0 0 0 15.439453 25.060547 L 21.439453 31.060547 A 1.50015 1.50015 0 1 0 23.560547 28.939453 L 20.121094 25.5 L 31.5 25.5 A 1.50015 1.50015 0 1 0 31.5 22.5 L 20.121094 22.5 L 23.560547 19.060547 A 1.50015 1.50015 0 0 0 22.470703 16.486328 z"></path>
+            </svg>
+          </Link>
               <img className="w-auto h-10 sm:h-14" src="logo.png" alt="" />
               <h1 className="mt-4 text-gray-600 dark:text-gray-300 md:text-lg">
                 Wilujeng Sumping

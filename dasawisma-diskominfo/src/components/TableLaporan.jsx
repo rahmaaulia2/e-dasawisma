@@ -117,7 +117,7 @@ export default function TableLaporan() {
           <div className="grid grid-cols-1 gap-4 sm:mt-2 sm:grid-cols-2 lg:grid-cols-2 gap-6 mb-2">
             <div className="bg-white border border-gray-200 shadow-md shadow-black/5 p-6 rounded-md lg:col-span-2">
               <div className="flex justify-between mb-4 items-start">
-                <div className="font-medium">Manajemen Laporan</div>
+                <div className="font-medium">Data Penduduk</div>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[460px]">

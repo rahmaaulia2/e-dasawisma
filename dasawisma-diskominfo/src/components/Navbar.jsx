@@ -5,6 +5,7 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State untuk menu di mobile
   const [isOpen, setIsOpen] = useState(false); // State untuk dropdown layanan
   const navigate = useNavigate();
+  const [role, setRole] = useState(localStorage.getItem("role"));
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen); // Membuka atau menutup dropdown layanan
@@ -112,34 +113,47 @@ export default function Navbar() {
                   aria-labelledby="menu-button"
                 >
                   <div className="py-1" role="none">
-                    <a
-                      href="/dashboard"
-                      className="block px-4 py-2 text-sm text-gray-700"
-                      role="menuitem"
-                      id="menu-item-0"
-                    >
-                      Dashboard
-                    </a>
-                    <a
-                      href="/addUser"
-                      className="block px-4 py-2 text-sm text-gray-700"
-                      role="menuitem"
-                      id="menu-item-0"
-                    >
-                      Add User
-                    </a>
-                    <a
-                      href="/dasawisma"
-                      className="block px-4 py-2 text-sm text-gray-700"
-                      role="menuitem"
-                      id="menu-item-2"
-                    >
-                      Dasawisma
-                    </a>
+                    {role === "admin" && (
+                      <a
+                        href="/addUser"
+                        className="block px-4 py-2 text-sm text-gray-700"
+                        role="menuitem"
+                        id="menu-item-0"
+                      >
+                        Add User
+                      </a>
+                    )}
+
+                    {(role === "admin" || role === "user") && (
+                      <a
+                        href="/dasawisma"
+                        className="block px-4 py-2 text-sm text-gray-700"
+                        role="menuitem"
+                        id="menu-item-2"
+                      >
+                        Dasawisma
+                      </a>
+                    )}
+
+                    {(role === "RT" ||
+                      role === "RW" ||
+                      role === "Kecamatan" ||
+                      role === "Kelurahan" ||
+                      role === "admin") && (
+                      <a
+                        href="/dashboard"
+                        className="block px-4 py-2 text-sm text-gray-700"
+                        role="menuitem"
+                        id="menu-item-0"
+                      >
+                        Dashboard
+                      </a>
+                    )}
                   </div>
                 </div>
-                
-                {localStorage.getItem("access_token") && localStorage.getItem("access_token") !== "undefined" ? (
+
+                {localStorage.getItem("access_token") &&
+                localStorage.getItem("access_token") !== "undefined" ? (
                   <button
                     onClick={handleLogout}
                     type="button"
