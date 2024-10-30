@@ -79,7 +79,7 @@ const router = createBrowserRouter([
     }, {
       path : "/dasawisma",
       element : <Dasawisma/>,
-      loader : combinedLoaderUserAdmin
+      // loader : combinedLoaderUserAdmin
     },{
       path : "/addUser",
       element :<AddUser/>,
