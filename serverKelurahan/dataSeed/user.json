@@ -1,0 +1,52 @@
+[
+  {
+    "nama": "Rahma Aulia",
+    "email": "rahma@mail.com",
+    "noHp": "098765673892",
+    "alamat": "Jl.Selabintana",
+    "RoleId": 1,
+    "RtId": 1,
+    "RwId": 1,
+    "password": "123456"
+  },
+  {
+    "nama": "Rahma RT",
+    "email": "rahmart@mail.com",
+    "noHp": "098765673892",
+    "alamat": "Jl.Selabintana",
+    "RoleId": 3,
+    "RtId": 1,
+    "RwId": 5,
+    "password": "123456"
+  },
+  {
+    "nama": "Rahma RW",
+    "email": "rahmarw@mail.com",
+    "noHp": "098765673892",
+    "alamat": "Jl.Selabintana",
+    "RoleId": 2,
+    "RtId": 4,
+    "RwId": 1,
+    "password": "123456"
+  },
+  {
+    "nama": "Rahma rt lagi",
+    "email": "rahmartlg@mail.com",
+    "noHp": "098765673892",
+    "alamat": "Jl.Selabintana",
+    "RoleId": 3,
+    "RtId": 4,
+    "RwId": 2,
+    "password": "123456"
+  },
+  {
+    "nama": "Rahma rw lagi",
+    "email": "rahmarwlg@mail.com",
+    "noHp": "098765673892",
+    "alamat": "Jl.Selabintana",
+    "RoleId": 2,
+    "RtId": 7,
+    "RwId": 3,
+    "password": "123456"
+  }
+]
