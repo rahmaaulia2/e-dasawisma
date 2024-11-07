@@ -8,11 +8,9 @@ const AuthorizationRole = async (req, res, next) => {
       throw { name: "Unauthorized" };
     }
     if (
-      role === "admin" ||
-      role === "RW" ||
-      role === "RT" ||
-      role === "Kelurahan" ||
-      role === "Kecamatan"
+      role === "rt" ||
+      role === "rw" ||
+      role === "kelurahan" 
     ) {
       next();
     } else {
@@ -30,7 +28,7 @@ const AuthorizationAdmin = async (req, res, next) => {
     if (!verifyUser) {
       throw { name: "Unauthorized" };
     }
-    if (role === "admin") {
+    if (role === "kelurahan") {
       next();
     } else {
       res.status(401).json({ message: "Unauthorized" });
@@ -41,7 +39,7 @@ const AuthorizationAdmin = async (req, res, next) => {
   }
 };
 
-const AuthorizationUser = async (req, res, next) => {
+const AuthorizationRT = async (req, res, next) => {
   try {
     const { id, role } = req.user;
     // console.log(req.user, "authorization user");
@@ -54,7 +52,7 @@ const AuthorizationUser = async (req, res, next) => {
     }
     // console.log(verifyUser.id, id, role);
     
-    if (verifyUser.id === id||role === "user" || role === "admin" ) {
+    if (verifyUser.id === id||role === "rt" || role === "kelurahan" ) {
       next();
     } else {
       res.status(401).json({ name: "Unauthorized" });
@@ -65,4 +63,4 @@ const AuthorizationUser = async (req, res, next) => {
   }
 };
 
-module.exports = { AuthorizationRole, AuthorizationAdmin, AuthorizationUser };
+module.exports = { AuthorizationRole, AuthorizationAdmin, AuthorizationRT };

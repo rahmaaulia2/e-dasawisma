@@ -34,6 +34,10 @@ const ErrorHandler = (err, req, res, next) => {
         status = 404;
         message = "KK not found";
         break;
+      case "EmailAlreadyExist":
+        status = 400;
+        message = "Email already exist";
+        break;
       default:
         status = 500;
         message = "Internal server error";
