@@ -17,7 +17,7 @@ module.exports = {
         }
       },
       namaLengkap: {
-        type: Sequelize.STRING(30),
+        type: Sequelize.STRING(40),
         allowNull: false,
       },
       jenisKelamin: {
@@ -33,7 +33,7 @@ module.exports = {
         allowNull: false,
       },
       kartuKeluarga: {
-        type: Sequelize.STRING(30),
+        type: Sequelize.STRING(80),
         allowNull: false,
       },
       noKKKTP: {
@@ -71,7 +71,7 @@ module.exports = {
         allowNull: false,
       },
       pekerjaan: {
-        type: Sequelize.STRING(30),
+        type: Sequelize.STRING(40),
         allowNull: false,
       },
       penghasilanSebulan: {
@@ -91,7 +91,7 @@ module.exports = {
         allowNull: false,
       },
       pusKB: {
-        type: Sequelize.STRING(30),
+        type: Sequelize.STRING(40),
         allowNull: false,
       },
       ibuHamilKeluarga: {
@@ -131,11 +131,11 @@ module.exports = {
         allowNull: false,
       },
       riwayatPenyakitBayi: {
-        type: Sequelize.STRING(30),
+        type: Sequelize.STRING(40),
         allowNull: false,
       },
       anakSekolah: {
-        type: Sequelize.STRING(30),
+        type: Sequelize.STRING(40),
         allowNull: false,
       },
       anakTidakSekolah: {
@@ -143,7 +143,7 @@ module.exports = {
         allowNull: false,
       },
       anakYatimPiatu: {
-        type: Sequelize.STRING(30),
+        type: Sequelize.STRING(40),
         allowNull: false,
       },
       lansia: {
@@ -207,11 +207,11 @@ module.exports = {
         allowNull: false,
       },
       jenisUsaha: {
-        type: Sequelize.STRING(30),
+        type: Sequelize.STRING(40),
         allowNull: false,
       },
       pengeluaranBulanan: {
-        type: Sequelize.STRING(30),
+        type: Sequelize.STRING(40),
         allowNull: false,
       },
       keterangan: {

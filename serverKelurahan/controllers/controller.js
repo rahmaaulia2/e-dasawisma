@@ -1,4 +1,4 @@
-const { Op, where } = require("sequelize");
+const { Op } = require("sequelize");
 const { comparePassword, hashPassword } = require("../helpers/bcrypt");
 const { generateToken } = require("../helpers/jwt");
 const { User, DetailKK, Role } = require("../models");
@@ -166,11 +166,12 @@ class Controller {
       next(error);
     }
   }
-
   static async addKK(req, res, next) {
     try {
       const { id } = req.user;
       const findUser = await User.findByPk(id);
+      if (!findUser) throw { name: "CannotCreateDasawisma" };
+      
       const {
         namaLengkap,
         jenisKelamin,
@@ -222,10 +223,14 @@ class Controller {
         keterangan,
       } = req.body;
       const kartuKeluargaName = req.file.originalname; //file
+
+      const findByName = await DetailKK.findOne({
+        where: { namaLengkap },
+      });
+      if (findByName) throw { name: "NameAlreadyExist" };
+
       await DetailKK.create({
         UserId: id,
-        KecamatanCode,
-        KelurahanCode,
         namaLengkap,
         jenisKelamin,
         tempatLahir,
@@ -284,12 +289,9 @@ class Controller {
   }
   static async getAllKK(req, res, next) {
     try {
-      const { id } = req.user;
+      const { id, role } = req.user;
       const findUser = await User.findByPk(id);
-      const { role, rt, rw, KelurahanCode, KecamatanCode } = findUser;
-      // console.log(role, rt, "ini role");
-
-      // console.log(findUser, "ini findUser");
+      const { RwId,RtId } = findUser;
 
       const {
         filterKelurahan,
@@ -343,8 +345,8 @@ class Controller {
         jenisKelamin: filterGender,
         statusPerkawinan: filterStatusPerkawinan,
         agama: filterAgama,
-        rt: filterRT,
-        rw: filterRW,
+        RtId: filterRT,
+        RwId: filterRW,
         pendidikan: filterPendidikan,
         pekerjaan: filterPekerjaan,
         penghasilanSebulan: filterPenghasilan,
@@ -395,14 +397,12 @@ class Controller {
 
       // mendefinisikan role berdasarkan kondisi
       const roleConditions = {
-        Kecamatan: { KecamatanCode },
-        Kelurahan: { KelurahanCode },
-        RW: { KelurahanCode, rw },
-        RT: { KelurahanCode, rt },
+        rw: { RwId },
+        rt: { RtId },
       };
 
       // menambahkan kondisi role jika bukan admin
-      if (role !== "admin") {
+      if (role !== "kelurahan") {
         paramsquery.where = {
           ...paramsquery.where,
           ...(roleConditions[role] || { UserId: id }),
@@ -416,7 +416,7 @@ class Controller {
       next(error);
     }
   }
-  static async getDetailKK(req, res, next) {
+  static async getDetailKkById(req, res, next) {
     try {
       const { idKK } = req.params;
       const detailKK = await DetailKK.findByPk(idKK, {
@@ -442,8 +442,8 @@ class Controller {
         noKKKTP,
         statusPerkawinan,
         agama,
-        rt,
-        rw,
+        RwId,
+        RtId,
         alamat,
         pendidikan,
         pekerjaan,
@@ -495,8 +495,8 @@ class Controller {
           noKKKTP,
           statusPerkawinan,
           agama,
-          rt,
-          rw,
+          RwId,
+          RtId,
           alamat,
           pendidikan,
           pekerjaan,

@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     namaLengkap: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING(40),
       allowNull: false,
       validate: {
         notNull: {
@@ -29,8 +29,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Nama lengkap tidak boleh kosong",
         },
         len: {
-          args: [2, 30],
-          msg: "Nama lengkap harus lebih dari 2 dan maksimal 30 karakter ",
+          args: [2, 40],
+          msg: "Nama lengkap harus lebih dari 2 dan maksimal 40 karakter ",
         },
         isUppercase :{
           msg: "Nama lengkap harus huruf kapital"
@@ -85,7 +85,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     kartuKeluarga: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING(80),
       allowNull: false,
       validate: {
         notNull: {
@@ -187,7 +187,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     pekerjaan: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING(40),
       allowNull: false,
       validate: {
         notNull: {
@@ -197,8 +197,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Pekerjaan tidak boleh kosong",
         },
         len :{
-          args: [2, 30],
-          msg: "Pekerjaan harus lebih dari 2 dan maksimal 30 karakter ",
+          args: [2, 40],
+          msg: "Pekerjaan harus lebih dari 2 dan maksimal 40 karakter ",
         }
       },
     },
@@ -267,7 +267,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     pusKB: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING(40),
       allowNull: false,
       validate: {
         notNull: {
@@ -277,8 +277,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "PUS KB tidak boleh kosong",
         },
         len : {
-          args: [2, 30],
-          msg: "PUS KB harus lebih dari 2 dan maksimal 30 karakter ",
+          args: [2, 40],
+          msg: "PUS KB harus lebih dari 2 dan maksimal 40 karakter ",
         }
       },
     },
@@ -427,7 +427,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     riwayatPenyakitBayi: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING(40),
       allowNull: false,
       validate: {
         notNull: {
@@ -442,7 +442,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     anakSekolah: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING(40),
       allowNull: false,
       validate: {
         notNull: {
@@ -452,8 +452,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Anak sekolah tidak boleh kosong",
         },
         len :{
-          args: [2, 30],
-          msg : "Anak sekolah harus lebih dari 2 dan maksimal 30 karakter",
+          args: [2, 40],
+          msg : "Anak sekolah harus lebih dari 2 dan maksimal 40 karakter",
         }
       },
     },
@@ -474,7 +474,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     anakYatimPiatu: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING(40),
       allowNull: false,
       validate: {
         notNull: {
@@ -484,8 +484,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Anak yatim piatu tidak boleh kosong",
         },
         len:{
-          args: [2, 30],
-          msg : "Anak yatim piatu harus lebih dari 2 dan maksimal 30 karakter",
+          args: [2, 40],
+          msg : "Anak yatim piatu harus lebih dari 2 dan maksimal 40 karakter",
         }
       },
     },
@@ -733,7 +733,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     jenisUsaha: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING(40),
       allowNull: false,
       validate: {
         notNull: {
@@ -743,13 +743,13 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Jenis usaha tidak boleh kosong",
         },
         len :{
-          args: [2, 30],
-          msg : "Jenis usaha harus lebih dari 2 dan maksimal 30 karakter ",
+          args: [2, 40],
+          msg : "Jenis usaha harus lebih dari 2 dan maksimal 40 karakter ",
         }
       },
     },
     pengeluaranBulanan: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING(40),
       allowNull: false,
       validate: {
         notNull: {
@@ -759,8 +759,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Pengeluaran bulanan tidak boleh kosong",
         },
         len :{
-          args: [2, 30],
-          msg : "Pengeluaran bulanan harus lebih dari 2 dan maksimal 30 karakter ",
+          args: [2, 40],
+          msg : "Pengeluaran bulanan harus lebih dari 2 dan maksimal 40 karakter ",
         },
         isUppercase :{
           msg: "Pengeluaran bulanan harus huruf kapital"
