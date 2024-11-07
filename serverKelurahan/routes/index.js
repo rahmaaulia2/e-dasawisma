@@ -8,7 +8,7 @@ const path = require("path");
 const {
   AuthorizationAdmin,
   AuthorizationRole,
-  AuthorizationUser,
+  AuthorizationRT,
 } = require("../middlewares/authorization");
 
 const uploadDir = path.join(__dirname, "..", "uploads");
@@ -32,6 +32,7 @@ const upload = multer({ storage });
 router.get("/test", (req, res) => {
   res.send("ini router test");
 });
+router.get("/roles", Controller.getAllRole); //get roles untuk semua role
 router.post("/login", Controller.login); //login untuk semua role
 router.post("/addUser", Authentication, AuthorizationAdmin, Controller.addUser); //add user hanya untuk admin
 router.get(
@@ -51,16 +52,16 @@ router.get(
   "/users/:userId",
   Authentication,
   AuthorizationAdmin,
-  Controller.getUser
+  Controller.getUserById
 ); // get user by id hanya untuk admin
 router.patch(
-  "/updateUser/:userId",
+  "/users/:userId",
   Authentication,
   AuthorizationAdmin,
   Controller.updateUser
 ); // update user hanya untuk admin
 router.delete(
-  "/deleteUser/:userId",
+  "/users/:userId",
   Authentication,
   AuthorizationAdmin,
   Controller.deleteUser
@@ -70,7 +71,7 @@ router.post(
   "/addKK",
   upload.single("kartuKeluarga"),
   Authentication,
-  AuthorizationUser,
+  AuthorizationRT,
   Controller.addKK
 ); // add KK hanya untuk user dan admin(kalo perlu)
 router.get("/KK", Authentication, AuthorizationRole, Controller.getAllKK); // get all KK untuk semua role kecuali user
@@ -96,7 +97,7 @@ router.delete(
 router.get(
   "/uploads/:filename",
   Authentication,
-  AuthorizationUser,
+  AuthorizationRT,
   Controller.getUploads
 );
 
