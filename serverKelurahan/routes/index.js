@@ -32,7 +32,7 @@ const upload = multer({ storage });
 router.get("/test", (req, res) => {
   res.send("ini router test");
 });
-router.get("/roles", Controller.getAllRole); //get roles untuk semua role
+router.get("/roles",Authentication, Controller.getAllRole); //get roles untuk semua role
 router.post("/login", Controller.login); //login untuk semua role
 router.post("/addUser", Authentication, AuthorizationAdmin, Controller.addUser); //add user hanya untuk admin
 router.get(
@@ -79,7 +79,7 @@ router.get(
   "/KK/:idKK",
   Authentication,
   AuthorizationRole,
-  Controller.getDetailKK
+  Controller.getDetailKkById
 ); // get detail KK untuk semua role kecuali user
 router.patch(
   "/KK/:idKK",

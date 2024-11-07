@@ -42,16 +42,10 @@ const AuthorizationAdmin = async (req, res, next) => {
 const AuthorizationRT = async (req, res, next) => {
   try {
     const { id, role } = req.user;
-    // console.log(req.user, "authorization user");
     
     const verifyUser = await User.findByPk(id);
-    // console.log(verifyUser, "verify user");
-    
-    if (!verifyUser) {
-      throw { name: "Unauthorized" };
-    }
-    // console.log(verifyUser.id, id, role);
-    
+    if (!verifyUser) throw { name: "Unauthorized" };
+
     if (verifyUser.id === id||role === "rt" || role === "kelurahan" ) {
       next();
     } else {
