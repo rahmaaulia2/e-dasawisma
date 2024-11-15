@@ -9,14 +9,14 @@ import TableUser from "../src/components/TableUser";
 import TableLaporan from "../src/components/TableLaporan";
 
 const loader = () => {
-  console.log(localStorage.access_token, localStorage.role);
+  // console.log(localStorage.access_token, localStorage.role);
   if (!localStorage.access_token || localStorage.access_token === "undefined") {
     return redirect('/login')
   }
   return null
 }
 const loaderAdmin = () => {
-  if (localStorage.role !== "admin") {
+  if (localStorage.role !== "kelurahan") {
     Swal.fire({
       // title: "Good job!",
       text: `you're not authorized to access this page`,
@@ -26,8 +26,8 @@ const loaderAdmin = () => {
   }
   return null
 }
-const loaderUserAdmin = () => {
-  if (localStorage.role !== "user" || localStorage.role !== "admin") {
+const loaderRt = () => {
+  if (localStorage.role !== "rt" ) {
     Swal.fire({
       title: "Not Authorized",
       text: `you're not authorized to access this page`,
@@ -38,7 +38,7 @@ const loaderUserAdmin = () => {
   return null
 }
 const loaderSuperUser = () => {
-  if (localStorage.role !== "RT" && localStorage.role !== "RW" && localStorage.role !== "Kecamatan" && localStorage.role !== "Kelurahan" && localStorage.role !== "admin") {
+  if (localStorage.role !== "rt" && localStorage.role !== "rw" && localStorage.role !== "kelurahan" ) {
     Swal.fire({
       title: "Not Authorized",
       text: `you're not authorized to access this page`,
@@ -55,10 +55,10 @@ const combinedLoaderAdmin = async () => {
   if(adminCheck) return adminCheck
   return null
 }
-const combinedLoaderUserAdmin = async () => {
+const combinedLoaderSuperRt = async () => {
   const accessCheck = loader()
   if(accessCheck) return accessCheck
-  const userAdminCheck = loaderUserAdmin()
+  const userAdminCheck = loaderRt()
   if(userAdminCheck) return userAdminCheck
   return null
 }
@@ -79,7 +79,7 @@ const router = createBrowserRouter([
     }, {
       path : "/dasawisma",
       element : <Dasawisma/>,
-      // loader : combinedLoaderUserAdmin
+      loader : combinedLoaderSuperRt
     },{
       path : "/addUser",
       element :<AddUser/>,

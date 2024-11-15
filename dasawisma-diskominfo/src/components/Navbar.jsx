@@ -5,7 +5,7 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State untuk menu di mobile
   const [isOpen, setIsOpen] = useState(false); // State untuk dropdown layanan
   const navigate = useNavigate();
-  const [role, setRole] = useState(localStorage.getItem("role"));
+  const [role, ] = useState(localStorage.getItem("role"));
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen); // Membuka atau menutup dropdown layanan
@@ -113,7 +113,7 @@ export default function Navbar() {
                   aria-labelledby="menu-button"
                 >
                   <div className="py-1" role="none">
-                    {role === "admin" && (
+                    {role === "kelurahan" && (
                       <a
                         href="/addUser"
                         className="block px-4 py-2 text-sm text-gray-700"
@@ -124,7 +124,7 @@ export default function Navbar() {
                       </a>
                     )}
 
-                    {(role === "admin" || role === "user") && (
+                    {(role === "rt") && (
                       <a
                         href="/dasawisma"
                         className="block px-4 py-2 text-sm text-gray-700"
@@ -135,11 +135,9 @@ export default function Navbar() {
                       </a>
                     )}
 
-                    {(role === "RT" ||
-                      role === "RW" ||
-                      role === "Kecamatan" ||
-                      role === "Kelurahan" ||
-                      role === "admin") && (
+                    {(role === "rt" ||
+                      role === "rw" ||
+                      role === "kelurahan" ) && (
                       <a
                         href="/dashboard"
                         className="block px-4 py-2 text-sm text-gray-700"
