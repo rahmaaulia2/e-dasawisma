@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ServerApi from "../helper/ServerApi";
 import { Link, useNavigate } from "react-router-dom";
+// import Swal from "sweetalert2";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -78,7 +79,7 @@ export default function Login() {
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              x="px"
+              x="0px"
               y="0px"
               width="24"
               height="24"
