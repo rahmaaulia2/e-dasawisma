@@ -1,7 +1,7 @@
 const { Op } = require("sequelize");
 const { comparePassword, hashPassword } = require("../helpers/bcrypt");
 const { generateToken } = require("../helpers/jwt");
-const { User, DetailKK, Role } = require("../models");
+const { User, DetailKK, Role, RT, RW } = require("../models");
 const path = require("path");
 
 class Controller {
@@ -339,6 +339,14 @@ class Controller {
       let paramsquery = {
         attributes: { exclude: ["createdAt", "updatedAt"] },
         where: {},
+        include:[{
+          model: RT,
+          attributes: ['nomor'],
+        },
+        {
+          model: RW,
+          attributes: ['nomor'],
+        }]
       };
       const filters = {
         KelurahanCode: filterKelurahan,
