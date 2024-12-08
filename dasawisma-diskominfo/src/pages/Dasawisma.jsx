@@ -4,8 +4,10 @@ import Form from "../components/Form";
 export default function Dasawisma() {
   return (
     <>
-    <Form/>
-    <Footer/>
+      <div>
+        <Form />
+        <Footer />
+      </div>
     </>
   );
 }

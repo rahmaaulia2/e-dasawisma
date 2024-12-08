@@ -1,12 +1,119 @@
+import { useState } from "react";
+import ServerApi from "../helper/ServerApi";
+import Swal from "sweetalert2";
+
 export default function Form() {
+  const [input, setInput] = useState({
+    namaLengkap: "",
+    jenisKelamin: "",
+    tempatLahir: "",
+    tanggalLahir: "",
+    // kartuKeluarga: "",
+    noKKKTP: "",
+    statusPerkawinan: "",
+    agama: "",
+    RtId: "",
+    RwId: "",
+    alamat: "",
+    pendidikan: "",
+    pekerjaan: "",
+    penghasilanSebulan: "",
+    dokumenKependudukan: "",
+    wusKeluarga: "",
+    pusKeluarga: "",
+    pusKB: "",
+    ibuHamilKeluarga: "",
+    ibuMenyusuiKeluarga: "",
+    ibuBekerjaKeluarga: "",
+    balitaKeluarga: "",
+    bbBayiNormal: "",
+    asiBayiEkslusif: "",
+    bayiPosyandu: "",
+    bayiImunisasi: "",
+    bbTbBayiNormal: "",
+    riwayatPenyakitBayi: "",
+    anakSekolah: "",
+    anakTidakSekolah: "",
+    anakYatimPiatu: "",
+    lansia: "",
+    keluargaDifabel: "",
+    keluargaCacatMental: "",
+    keluargaTidakMendapatkanPengobatan: "",
+    bantuanPemerintah: "",
+    keluargaMerokok: "",
+    saranaAirBersih: "",
+    jambanKeluarga: "",
+    septicTank: "",
+    pembuanganSampah: "",
+    kriteriaRumah: "",
+    statusRumah: "",
+    aktivitasKeagamaan: "",
+    aktivitasSosial: "",
+    memilikiToga: "",
+    jenisUsaha: "",
+    pengeluaranBulanan: "",
+    keterangan: "-",
+  });
+  const [file, setFile] = useState(null)
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setInput((prevInput) => ({
+      ...prevInput,
+      [name]: value.toUpperCase(), // Ubah nilai input menjadi uppercase
+    }));
+  };
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]); // Simpan file yang dipilih dalam state
+  };
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const form = new FormData()
+    Object.entries(input).forEach(([key, value]) => {
+      form.append(key, value);
+    });
+    if (file) {
+      form.append('kartuKeluarga', file);
+    }
+    // console.log(...form.entries());
+    // const params = new URLSearchParams(filter).toString();
+    console.log(form, "<<<<<<<<<<<<<");
+    
+    const response = await fetch(`${ServerApi}addKK`, {
+      method: "POST",
+      body: form,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    });
+    const res = await response.json();
+    console.log(res);
+    if(res.message=== 'Success input dasawisma'){
+      Swal.fire({
+        icon : "success",
+        title: `${res.message}`,
+        text: "I will close in 2 seconds.",
+        timer: 2000,
+      });
+      
+    }else {
+      Swal.fire({
+        icon : "error",
+        title: `${res.message}`,
+        text: "I will close in 2 seconds.",
+        timer: 2000,
+      });
+    }
+    // setKk(data);
+  };
   return (
     <>
       <section className="mt-4 mb-4 max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
         <h2 className="text-lg font-semibold text-gray-700 capitalize dark:text-white">
           Form Dasawisma
         </h2>
-        <form>
-          
+        <form onSubmit={handleSubmit}>
           <div className="mt-4">
             <label
               className="block text-sm font-medium text-gray-900"
@@ -16,7 +123,10 @@ export default function Form() {
             </label>
             <input
               type="text"
-              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
+              name="namaLengkap"
+              value={input.namaLengkap}
+              onChange={handleChange}
+              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring uppercase"
             />
           </div>
           <div className="mt-4">
@@ -27,9 +137,10 @@ export default function Form() {
               Jenis Kelamin
             </label>
 
-            <div className="relative mt-1.5">
+            {/* <div className="relative mt-1.5">
               <input
                 type="text"
+                name="jenisKelamin" value={input.name} onChange={handleChange}
                 list="selectGenderList"
                 id="selectGender"
                 className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
@@ -52,12 +163,21 @@ export default function Form() {
                   />
                 </svg>
               </span>
-            </div>
+            </div> */}
 
-            <datalist name="selectGender" id="selectGenderList">
-              <option value="Laki-laki">Laki-laki</option>
-              <option value="Perempuan">Perempuan</option>
-            </datalist>
+            <select
+              name="jenisKelamin"
+              value={input.jenisKelamin}
+              onChange={handleChange}
+              className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              // placeholder="Please select"
+            >
+              <option value="" disabled>
+                Please select
+              </option>
+              <option value="LAKI-LAKI">Laki-laki</option>
+              <option value="PEREMPUAN">Perempuan</option>
+            </select>
           </div>
           <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
             <div>
@@ -69,6 +189,9 @@ export default function Form() {
               </label>
               <input
                 type="text"
+                name="tempatLahir"
+                value={input.tempatLahir}
+                onChange={handleChange}
                 className="block w-full px-3 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
               />
             </div>
@@ -81,7 +204,9 @@ export default function Form() {
               </label>
               <input
                 type="date"
-                // placeholder="John Doe"
+                name="tanggalLahir"
+                value={input.tanggalLahir}
+                onChange={handleChange}
                 className="block w-full px-3 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
               />
             </div>
@@ -96,6 +221,9 @@ export default function Form() {
               </label>
               <input
                 type="file"
+                name="kartuKeluarga"
+                // value={file}
+                onChange={handleFileChange}
                 className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
               />
             </div>
@@ -107,7 +235,10 @@ export default function Form() {
                 Nomor Kartu Keluarga/KTP
               </label>
               <input
-                type="text"
+                type="number"
+                name="noKKKTP"
+                value={input.noKKKTP}
+                onChange={handleChange}
                 className="block w-full px-3 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
               />
             </div>
@@ -121,9 +252,12 @@ export default function Form() {
                 Status Perkawinan
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
+                  name="statusPerkawinan"
+                value={input.statusPerkawinan}
+                onChange={handleChange}
                   list="SelectPerkawinanList"
                   id="SelectPerkawinan"
                   className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
@@ -146,17 +280,25 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="SelectPerkawinan" id="SelectPerkawinanList">
-                <option value="Nikah Tercatat">Nikah Tercatat</option>
-                <option value="Nikah Tidak Tercatat">
+              <select
+                name="statusPerkawinan"
+                value={input.statusPerkawinan}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="NIKAH TERCATAT">Nikah Tercatat</option>
+                <option value="NIKAH TIDAK TERCATAT">
                   Nikah Tidak Tercatat
                 </option>
-                <option value="Cerai Hidup">Cerai Hidup</option>
-                <option value="Cerai Mati">Cerai Mati</option>
-                <option value="Lajang">Lajang</option>
-              </datalist>
+                <option value="CERAI HIDUP">Cerai Hidup</option>
+                <option value="CERAI MATI">Cerai Mati</option>
+                <option value="LAJANG">Lajang</option>
+              </select>
             </div>
             <div>
               <label
@@ -166,7 +308,7 @@ export default function Form() {
                 Agama
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectAgamaList"
@@ -191,16 +333,24 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectAgama" id="selectAgamaList">
-                <option value="Islam">Islam</option>
-                <option value="Kristen">Kristen</option>
-                <option value="Katolik">Katolik</option>
-                <option value="Hindu">Hindu</option>
-                <option value="Buddha">Buddha</option>
-                <option value="Konghuchu">Konghuchu</option>
-              </datalist>
+              <select
+                name="agama"
+                value={input.agama}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="ISLAM">Islam</option>
+                <option value="KRISTEN">Kristen</option>
+                <option value="KATOLIK">Katolik</option>
+                <option value="HINDU">Hindu</option>
+                <option value="BUDDHA">Buddha</option>
+                <option value="KONGHUCHU">Konghuchu</option>
+              </select>
             </div>
           </div>
           <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
@@ -212,7 +362,7 @@ export default function Form() {
                 RT
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectRTList"
@@ -237,15 +387,25 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectRw" id="selectRTList">
-                <option value="001">001</option>
-                <option value="002">002</option>
-                <option value="003">003</option>
-                <option value="004">004</option>
-                <option value="005">005</option>
-              </datalist>
+              <select
+                name="RtId"
+                value={input.RtId}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="1">001</option>
+                <option value="2">002</option>
+                <option value="3">003</option>
+                <option value="4">004</option>
+                <option value="5">005</option>
+                <option value="6">006</option>
+                <option value="7">007</option>
+              </select>
             </div>
             <div>
               <label
@@ -255,7 +415,7 @@ export default function Form() {
                 RW
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectRWList"
@@ -280,17 +440,23 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectRW" id="selectRWList">
-                <option value="001">001</option>
-                <option value="002">002</option>
-                <option value="003">003</option>
-                <option value="004">004</option>
-                <option value="005">005</option>
-                <option value="006">006</option>
-                <option value="007">007</option>
-              </datalist>
+              <select
+                name="RwId"
+                value={input.RwId}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="1">001</option>
+                <option value="2">002</option>
+                <option value="3">003</option>
+                <option value="4">004</option>
+                <option value="5">005</option>
+              </select>
             </div>
           </div>
           <div className="mt-4">
@@ -303,11 +469,13 @@ export default function Form() {
             <textarea
               id="alamat"
               type="text"
+              name="alamat"
+              value={input.alamat}
+              onChange={handleChange}
               className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
             />
           </div>
-          
-          
+
           <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
             <div>
               <label
@@ -317,7 +485,7 @@ export default function Form() {
                 Pendidikan
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectPendidikanList"
@@ -342,16 +510,24 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectPendidikan" id="selectPendidikanList">
-                <option value="Tidak Tamat SD">Tidak Tamat SD</option>
+              <select
+                name="pendidikan"
+                value={input.pendidikan}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="TIDAK TAMAT SD">Tidak Tamat SD</option>
                 <option value="SD/MI">SD/MI</option>
                 <option value="SMP">SMP</option>
                 <option value="SMA">SMA</option>
-                <option value="DIII/Sarjana">DIII/Sarjana</option>
-                <option value="S2/Magister">S2/Magister</option>
-              </datalist>
+                <option value="DIII/SARJANA">DIII/Sarjana</option>
+                <option value="S2/MAGISTER">S2/Magister</option>
+              </select>
             </div>
             <div>
               <label
@@ -361,7 +537,7 @@ export default function Form() {
                 Pekerjaan
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectPekerjaanList"
@@ -386,19 +562,25 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectPekerjaan" id="selectPekerjaanList">
+              <select
+                name="pekerjaan"
+                value={input.pekerjaan}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>Please Select</option>
                 <option value="PNS/TNI/POLRI">PNS/TNI/POLRI</option>
-                <option value="Karyawan Swasta">Karyawan Swasta</option>
-                <option value="Wiraswasta">Wiraswasta</option>
-                <option value="Buruh">Buruh</option>
-                <option value="Tidak Bekerja">Tidak Bekerja</option>
-                <option value="Tenaga Honorer/THL/TKS">
+                <option value="KARYAWAN SWASTA">Karyawan Swasta</option>
+                <option value="WIRASWASTA">Wiraswasta</option>
+                <option value="BURUH">Buruh</option>
+                <option value="TIDAK BEKERJA">Tidak Bekerja</option>
+                <option value="TENAGA HONORER/THL/TKS">
                   Tenaga Honorer/THL/TKS
                 </option>
-                <option value="Pensiunan">Pensiunan</option>
-              </datalist>
+                <option value="PENSIUNAN">Pensiunan</option>
+              </select>
             </div>
           </div>
           <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
@@ -410,7 +592,7 @@ export default function Form() {
                 Jumlah Penghasilan dalam Sebulan (dalam Rupiah)
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectPenghasilanList"
@@ -435,17 +617,25 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectPenghasilan" id="selectPenghasilanList">
-                <option value="Rp.600.000 s/d dibawah Rp.2.836.398">
+              <select
+                name="penghasilanSebulan"
+                value={input.penghasilanSebulan}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="RP.600.000 S/D DIBAWAH RP.2.836.398">
                   Rp.600.000 s/d dibawah Rp.2.836.398
                 </option>
-                <option value="Diatas atau sama dengan Rp.2.836.398">
+                <option value="DIATAS ATAU SAMA DENGAN RP.2.836.398">
                   Diatas atau sama dengan Rp.2.836.398
                 </option>
-                <option value="Dibawah Rp.600.000">Dibawah Rp.600.000</option>
-              </datalist>
+                <option value="DIBAWAH RP.600.000">Dibawah Rp.600.000</option>
+              </select>
             </div>
             <div>
               <label
@@ -455,7 +645,7 @@ export default function Form() {
                 Dokumen Kependudukan (KTP, KK, Akta Lahir, Akta Nikah)
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectDocList"
@@ -480,12 +670,15 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectDoc" id="selectDocList">
-                <option value="Lengkap">Lengkap</option>
-                <option value="Tidak Lengkap">Tidak Lengkap</option>
-              </datalist>
+              <select name="dokumenKependudukan"
+                value={input.dokumenKependudukan}
+                onChange={handleChange} className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300" >
+                  <option value="" disabled>Please Select</option>
+                <option value="LENGKAP">Lengkap</option>
+                <option value="TIDAK LENGKAP">Tidak Lengkap</option>
+              </select>
             </div>
           </div>
           <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
@@ -497,7 +690,7 @@ export default function Form() {
                 Wanita Usia Subur (WUS) dalam Keluarga
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectWUSList"
@@ -522,14 +715,22 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectWUS" id="selectWUSList">
+              <select
+                name="wusKeluarga"
+                value={input.wusKeluarga}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
                 <option value="1">1</option>
                 <option value="2">2</option>
-                <option value="Lebih dari 2">Lebih dari 2</option>
-                <option value="Tidak Ada WUS">Tidak Ada WUS</option>
-              </datalist>
+                <option value="LEBIH DARI 2">Lebih dari 2</option>
+                <option value="TIDAK ADA WUS">Tidak Ada WUS</option>
+              </select>
             </div>
             <div>
               <label
@@ -539,7 +740,7 @@ export default function Form() {
                 Pasangan Usia Subur (PUS) dalam Keluarga
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectPUSList"
@@ -564,12 +765,18 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectPUS" id="selectPUSList">
-                <option value="Ya">Ya</option>
-                <option value="Tidak">Tidak</option>
-              </datalist>
+              <select
+                name="pusKeluarga"
+                value={input.pusKeluarga}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>Please Select</option>
+                <option value="YA">Ya</option>
+                <option value="TIDAK">Tidak</option>
+              </select>
             </div>
           </div>
           <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
@@ -581,7 +788,7 @@ export default function Form() {
                 PUS Menjadi Akseptor KB
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectAkseptorList"
@@ -606,15 +813,23 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectAkseptor" id="selectAkseptorList">
-                <option value="Suami">Suami</option>
-                <option value="Istri">Istri</option>
-                <option value="Tidak Menjadi Akseptor KB">
+              <select
+                name="pusKB"
+                value={input.pusKB}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="SUAMI">Suami</option>
+                <option value="ISTRI">Istri</option>
+                <option value="TIDAK MENJADI AKSEPTOR KB">
                   Tidak Menjadi Akseptor KB
                 </option>
-              </datalist>
+              </select>
             </div>
             <div>
               <label
@@ -624,7 +839,7 @@ export default function Form() {
                 Ibu Hamil dalam Keluarga
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectIbuHamilList"
@@ -649,12 +864,20 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectIbuHamil" id="selectIbuHamilList">
-                <option value="Ada">Ada</option>
-                <option value="Tidak Ada">Tidak Ada</option>
-              </datalist>
+              <select
+                name="ibuHamilKeluarga"
+                value={input.ibuHamilKeluarga}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="ADA">Ada</option>
+                <option value="TIDAK ADA">Tidak Ada</option>
+              </select>
             </div>
           </div>
           <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
@@ -666,7 +889,7 @@ export default function Form() {
                 Ibu Menyusui dalam Keluarga
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectIbuMenyusuiList"
@@ -691,12 +914,20 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectIbuMenyusui" id="selectIbuMenyusuiList">
-                <option value="Ada">Ada</option>
-                <option value="Tidak Ada">Tidak Ada</option>
-              </datalist>
+              <select
+                name="ibuMenyusuiKeluarga"
+                value={input.ibuMenyusuiKeluarga}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="ADA">Ada</option>
+                <option value="TIDAK ADA">Tidak Ada</option>
+              </select>
             </div>
             <div>
               <label
@@ -706,7 +937,7 @@ export default function Form() {
                 Ibu Bekerja dalam Keluarga
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectIbubekerjaList"
@@ -731,12 +962,20 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectIbubekerja" id="selectIbubekerjaList">
-                <option value="Ada">Ada</option>
-                <option value="Tidak Ada">Tidak Ada</option>
-              </datalist>
+              <select
+                name="ibuBekerjaKeluarga"
+                value={input.ibuBekerjaKeluarga}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="ADA">Ada</option>
+                <option value="TIDAK ADA">Tidak Ada</option>
+              </select>
             </div>
           </div>
           <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
@@ -748,7 +987,7 @@ export default function Form() {
                 Jumlah Balita dalam Keluarga
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectJumlahBalitaList"
@@ -773,14 +1012,22 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectJumlahBalita" id="selectJumlahBalitaList">
+              <select
+                name="balitaKeluarga"
+                value={input.balitaKeluarga}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
                 <option value="1">1</option>
                 <option value="2">2</option>
-                <option value="Lebih dari 2">Lebih dari 2</option>
-                <option value="Tidak Ada Balita">Tidak Ada Balita</option>
-              </datalist>
+                <option value="LEBIH DARI 2">Lebih dari 2</option>
+                <option value="TIDAK ADA BALITA">Tidak Ada Balita</option>
+              </select>
             </div>
             <div>
               <label
@@ -790,7 +1037,7 @@ export default function Form() {
                 Bayi memiliki Berat Badan Lahir Normal
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectbbBayiList"
@@ -815,13 +1062,21 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectbbBayi" id="selectbbBayiList">
-                <option value="Ya">Ya</option>
-                <option value="Tidak">Tidak</option>
-                <option value="Tidak Ada Balita">Tidak Ada Balita</option>
-              </datalist>
+              <select
+                name="bbBayiNormal"
+                value={input.bbBayiNormal}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="YA">Ya</option>
+                <option value="TIDAK">Tidak</option>
+                <option value="TIDAK ADA BALITA">Tidak Ada Balita</option>
+              </select>
             </div>
           </div>
           <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
@@ -833,7 +1088,7 @@ export default function Form() {
                 Bayi diberikan Asi Ekslusif
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectAsiBayiList"
@@ -858,13 +1113,21 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectAsiBayi" id="selectAsiBayiList">
-                <option value="Ya">Ya</option>
-                <option value="Tidak">Tidak</option>
-                <option value="Tidak ada Balita">Tidak ada Balita</option>
-              </datalist>
+              <select
+                name="asiBayiEkslusif"
+                value={input.asiBayiEkslusif}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="YA">Ya</option>
+                <option value="TIDAK">Tidak</option>
+                <option value="TIDAK ADA BALITA">Tidak ada Balita</option>
+              </select>
             </div>
             <div>
               <label
@@ -874,7 +1137,7 @@ export default function Form() {
                 Bayi diperiksa Setiap Bulan ke Posyandu
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectPosyanduList"
@@ -899,13 +1162,21 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectPosyandu" id="selectPosyanduList">
-                <option value="Ya">Ya</option>
-                <option value="Tidak">Tidak</option>
-                <option value="Tidak Ada Balita">Tidak Ada Balita</option>
-              </datalist>
+              <select
+                name="bayiPosyandu"
+                value={input.bayiPosyandu}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="YA">Ya</option>
+                <option value="TIDAK">Tidak</option>
+                <option value="TIDAK ADA BALITA">Tidak Ada Balita</option>
+              </select>
             </div>
           </div>
           <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
@@ -917,7 +1188,7 @@ export default function Form() {
                 Bayi mendapatkan Imunisasi Dasar Lengkap
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectImunisasiList"
@@ -942,13 +1213,21 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectImunisasi" id="selectImunisasiList">
-                <option value="Ya">Ya</option>
-                <option value="Tidak">Tidak</option>
-                <option value="Tidak ada Balita">Tidak ada Balita</option>
-              </datalist>
+              <select
+                name="bayiImunisasi"
+                value={input.bayiImunisasi}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="YA">Ya</option>
+                <option value="TIDAK">Tidak</option>
+                <option value="TIDAK ADA BALITA">Tidak ada Balita</option>
+              </select>
             </div>
             <div>
               <label
@@ -958,7 +1237,7 @@ export default function Form() {
                 Bayi memiliki Berat Badan dan Tinggi Badan Normal
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectbbtbBayiList"
@@ -983,30 +1262,36 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectbbtbBayi" id="selectbbtbBayiList">
-                <option value="Ya">Ya</option>
-                <option value="Tidak">Tidak</option>
-                <option value="Tidak ada Balita">Tidak ada Balita</option>
-              </datalist>
+              <select
+                name="bbTbBayiNormal"
+                value={input.bbTbBayiNormal}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="YA">Ya</option>
+                <option value="TIDAK">Tidak</option>
+                <option value="TIDAK ADA BALITA">Tidak ada Balita</option>
+              </select>
             </div>
           </div>
           <div className="mt-4">
-            <label
-              htmlFor="selectImunisasi"
-              className="block text-sm font-medium text-gray-900"
-            >
+            <label className="block text-sm font-medium text-gray-900">
               Riwayat Penyakit dan Keterlambatan Tumbuh Kembang Bayi (Jika Ada)
             </label>
 
             <div className="relative mt-1.5">
               <input
                 type="text"
-                list="selectImunisasiList"
-                id="selectImunisasi"
+                name="riwayatPenyakitBayi"
+                value={input.riwayatPenyakitBayi}
+                onChange={handleChange}
                 className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
-                placeholder="Please select"
+                // placeholder="Please select"
               />
             </div>
           </div>
@@ -1019,7 +1304,7 @@ export default function Form() {
                 Anak Usia Sekolah dalam Keluarga
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectUsiaAnakList"
@@ -1044,17 +1329,25 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectUsiaAnak" id="selectUsiaAnakList">
+              <select
+                name="anakSekolah"
+                value={input.anakSekolah}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
                 <option value="TK/PAUD">TK/PAUD</option>
                 <option value="SD">SD</option>
                 <option value="SMP">SMP</option>
                 <option value="SMA">SMA</option>
-                <option value="Tidak Ada Anak Usia Sekolah">
+                <option value="TIDAK ADA ANAK USIA SEKOLAH">
                   Tidak Ada Anak Usia Sekolah
                 </option>
-              </datalist>
+              </select>
             </div>
             <div>
               <label
@@ -1065,7 +1358,7 @@ export default function Form() {
                 <span className="text-red-800">Tidak Sekolah</span>
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectAnakTidakSekolahList"
@@ -1090,20 +1383,25 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist
-                name="selectAnakTidakSekolah"
-                id="selectAnakTidakSekolahList"
+              <select
+                name="anakTidakSekolah"
+                value={input.anakTidakSekolah}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
               >
+                <option value="" disabled>
+                  Please select
+                </option>
                 <option value="TK/PAUD">TK/PAUD</option>
                 <option value="SD">SD</option>
                 <option value="SMP">SMP</option>
                 <option value="SMA">SMA</option>
-                <option value="Tidak Ada Anak Usia Sekolah yang Tidak Sekolah">
+                <option value="TIDAK ADA ANAK USIA SEKOLAH YANG TIDAK SEKOLAH">
                   Tidak Ada Anak Usia Sekolah yang Tidak Sekolah
                 </option>
-              </datalist>
+              </select>
             </div>
           </div>
           <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
@@ -1115,7 +1413,7 @@ export default function Form() {
                 Anak Yatim/Piatu dalam Keluarga
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectAnakYatimList"
@@ -1140,26 +1438,31 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectAnakYatim" id="selectAnakYatimList">
+              <select
+                name="anakYatimPiatu"
+                value={input.anakYatimPiatu}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
                 <option value="1">1</option>
                 <option value="2">2</option>
-                <option value="Lebih dari 2">Lebih dari 2</option>
-                <option value="Tidak ada Anak Yatim/Piatu">
+                <option value="LEBIH DARI 2">Lebih dari 2</option>
+                <option value="TIDAK ADA ANAK YATIM/PIATU">
                   Tidak ada Anak Yatim/Piatu
                 </option>
-              </datalist>
+              </select>
             </div>
             <div>
-              <label
-                htmlFor="selectLansia"
-                className="block text-sm font-medium text-gray-900"
-              >
+              <label className="block text-sm font-medium text-gray-900">
                 Orangtua Lanjut Usia (LANSIA)
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectLansiaList"
@@ -1184,12 +1487,20 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectLansia" id="selectLansiaList">
-                <option value="Ada">Ada</option>
-                <option value="Tidak Ada">Tidak Ada</option>
-              </datalist>
+              <select
+                name="lansia"
+                value={input.lansia}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="ADA">Ada</option>
+                <option value="TIDAK ADA">Tidak Ada</option>
+              </select>
             </div>
           </div>
           <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
@@ -1201,7 +1512,7 @@ export default function Form() {
                 Anggota Keluarga dengan Difabel
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectDifabelList"
@@ -1226,12 +1537,20 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectDifabel" id="selectDifabelList">
-                <option value="Ada">Ada</option>
-                <option value="Tidak Ada">Tidak Ada</option>
-              </datalist>
+              <select
+                name="keluargaDifabel"
+                value={input.keluargaDifabel}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="ADA">Ada</option>
+                <option value="TIDAK ADA">Tidak Ada</option>
+              </select>
             </div>
             <div>
               <label
@@ -1241,7 +1560,7 @@ export default function Form() {
                 Anggota Keluarga dengan Cacat Mental
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectCacatMentalList"
@@ -1266,12 +1585,20 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectCacatMental" id="selectCacatMentalList">
-                <option value="Ada">Ada</option>
-                <option value="Tidak Ada">Tidak Ada</option>
-              </datalist>
+              <select
+                name="keluargaCacatMental"
+                value={input.keluargaCacatMental}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="ADA">Ada</option>
+                <option value="TIDAK ADA">Tidak Ada</option>
+              </select>
             </div>
           </div>
           <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
@@ -1283,7 +1610,7 @@ export default function Form() {
                 Anggota Keluarga Sakit yang Tidak Mendapatkan Pengobatan
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectKeluargaSakitList"
@@ -1308,22 +1635,30 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectKeluargaSakit" id="selectKeluargaSakitList">
-                <option value="Ada">Ada</option>
-                <option value="Tidak Ada">Tidak Ada</option>
-              </datalist>
+              <select
+                name="keluargaTidakMendapatkanPengobatan"
+                value={input.keluargaTidakMendapatkanPengobatan}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="ADA">Ada</option>
+                <option value="TIDAK ADA">Tidak Ada</option>
+              </select>
             </div>
             <div>
               <label
                 htmlFor="selectBantuanPemerintah"
-                className="block text-sm font-medium text-gray-900"
+                className="block text-sm font-medium text-gray-900 mt-4"
               >
                 Penerima Manfaat/Bantuan Pemerintah
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectBantuanPemerintahList"
@@ -1348,22 +1683,27 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist
-                name="selectBantuanPemerintah"
-                id="selectBantuanPemerintahList"
+              <select
+                name="bantuanPemerintah"
+                value={input.bantuanPemerintah}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-3 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
               >
+                <option value="" disabled>
+                  Please select
+                </option>
                 <option value="PKH">PKH</option>
                 <option value="BPNT">BPNT</option>
                 <option value="KIS">KIS</option>
                 <option value="KIP">KIP</option>
                 <option value="KARTU CERDAS">KARTU CERDAS</option>
                 <option value="RASTRADA">RASTRADA</option>
-                <option value="Bukan Penerima Manfaat/Bantuan">
+                <option value="BUKAN PENERIMA MANFAAT/BANTUAN">
                   Bukan Penerima Manfaat/Bantuan
                 </option>
-              </datalist>
+              </select>
             </div>
           </div>
           <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
@@ -1375,7 +1715,7 @@ export default function Form() {
                 Anggota Keluarga yang Merokok
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectKeluargaMerokokList"
@@ -1400,15 +1740,20 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist
-                name="selectKeluargaMerokok"
-                id="selectKeluargaMerokokList"
+              <select
+                name="keluargaMerokok"
+                value={input.keluargaMerokok}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
               >
-                <option value="Ada">Ada</option>
-                <option value="Tidak Ada">Tidak Ada</option>
-              </datalist>
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="ADA">Ada</option>
+                <option value="TIDAK ADA">Tidak Ada</option>
+              </select>
             </div>
             <div>
               <label
@@ -1418,7 +1763,7 @@ export default function Form() {
                 Sumber Sarana Air Bersih
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectAirBersihList"
@@ -1443,14 +1788,22 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectAirBersih" id="selectAirBersihList">
+              <select
+                name="saranaAirBersih"
+                value={input.saranaAirBersih}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
                 <option value="PDAM">PDAM</option>
-                <option value="Sumur">Sumur</option>
-                <option value="Air Hujan">Air Hujan</option>
-                <option value="Air Sungai">Air Sungai</option>
-              </datalist>
+                <option value="SUMUR">Sumur</option>
+                <option value="AIR HUJAN">Air Hujan</option>
+                <option value="AIR SUNGAI">Air Sungai</option>
+              </select>
             </div>
           </div>
           <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
@@ -1461,7 +1814,7 @@ export default function Form() {
               >
                 Memiliki Jamban Keluarga
               </label>
-
+              {/* 
               <div className="relative mt-1.5">
                 <input
                   type="text"
@@ -1487,12 +1840,20 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectJamban" id="selectJambanList">
-                <option value="Ya">Ya</option>
-                <option value="Tidak">Tidak</option>
-              </datalist>
+              <select
+                name="jambanKeluarga"
+                value={input.jambanKeluarga}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="YA">Ya</option>
+                <option value="TIDAK">Tidak</option>
+              </select>
             </div>
             <div>
               <label
@@ -1502,7 +1863,7 @@ export default function Form() {
                 Memiliki Septictank
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectSeptictankList"
@@ -1527,12 +1888,20 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectSeptictank" id="selectSeptictankList">
-                <option value="Ya">Ya</option>
-                <option value="Tidak">Tidak</option>
-              </datalist>
+              <select
+                name="septicTank"
+                value={input.septicTank}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="YA">Ya</option>
+                <option value="TIDAK">Tidak</option>
+              </select>
             </div>
           </div>
           <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
@@ -1544,7 +1913,7 @@ export default function Form() {
                 Memiliki Tempat Pembuangan Sampah
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectPembuanganSampahList"
@@ -1569,15 +1938,20 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist
-                name="selectPembuanganSampah"
-                id="selectPembuanganSampahList"
+              <select
+                name="pembuanganSampah"
+                value={input.pembuanganSampah}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
               >
-                <option value="Ya">Ya</option>
-                <option value="Tidak">Tidak</option>
-              </datalist>
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="YA">Ya</option>
+                <option value="TIDAK">Tidak</option>
+              </select>
             </div>
             <div>
               <label
@@ -1587,7 +1961,7 @@ export default function Form() {
                 Kriteria Rumah
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectKriteriaRumahList"
@@ -1612,13 +1986,21 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectKriteriaRumah" id="selectKriteriaRumahList">
-                <option value="Sehat Layak Huni">Sehat Layak Huni</option>
-                <option value="Layak Huni">Layak Huni</option>
-                <option value="Tidak Layak Huni">Tidak Layak Huni</option>
-              </datalist>
+              <select
+                name="kriteriaRumah"
+                value={input.kriteriaRumah}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="SEHAT LAYAK HUNI">Sehat Layak Huni</option>
+                <option value="LAYAK HUNI">Layak Huni</option>
+                <option value="TIDAK LAYAK HUNI">Tidak Layak Huni</option>
+              </select>
             </div>
           </div>
           <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
@@ -1630,7 +2012,7 @@ export default function Form() {
                 Status Kepemilikan Rumah
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectStatusRumahList"
@@ -1655,12 +2037,20 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist name="selectStatusRumah" id="selectStatusRumahList">
-                <option value="Milik Sendiri">Milik Sendiri</option>
-                <option value="Sewa">Sewa</option>
-              </datalist>
+              <select
+                name="statusRumah"
+                value={input.statusRumah}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="MILIK SENDIRI">Milik Sendiri</option>
+                <option value="SEWA">Sewa</option>
+              </select>
             </div>
             <div>
               <label
@@ -1670,7 +2060,7 @@ export default function Form() {
                 Mengikuti Aktivitas Keagaaman di Lingkungan Sekitar
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectAktivitasKeagamaanList"
@@ -1695,15 +2085,20 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist
-                name="selectAktivitasKeagamaan"
-                id="selectAktivitasKeagamaanList"
+              <select
+                name="aktivitasKeagamaan"
+                value={input.aktivitasKeagamaan}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
               >
-                <option value="Ya">Ya</option>
-                <option value="Tidak">Tidak</option>
-              </datalist>
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="YA">Ya</option>
+                <option value="TIDAK">Tidak</option>
+              </select>
             </div>
           </div>
           <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
@@ -1715,7 +2110,7 @@ export default function Form() {
                 Mengikuti Aktivitas Sosial di Lingkungan Sekitar
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectAktivitasSosialList"
@@ -1740,15 +2135,20 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist
-                name="selectAktivitasSosial"
-                id="selectAktivitasSosialList"
+              <select
+                name="aktivitasSosial"
+                value={input.aktivitasSosial}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
               >
-                <option value="Ya">Ya</option>
-                <option value="Tidak">Tidak</option>
-              </datalist>
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="YA">Ya</option>
+                <option value="TIDAK">Tidak</option>
+              </select>
             </div>
             <div>
               <label
@@ -1758,7 +2158,7 @@ export default function Form() {
                 Memiliki Tanaman Obat Keluarga (TOGA)
               </label>
 
-              <div className="relative mt-1.5">
+              {/* <div className="relative mt-1.5">
                 <input
                   type="text"
                   list="selectTogaList"
@@ -1783,15 +2183,20 @@ export default function Form() {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
 
-              <datalist
-                name="selectToga"
-                id="selectTogaList"
+              <select
+                name="memilikiToga"
+                value={input.memilikiToga}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
               >
-                <option value="Ya">Ya</option>
-                <option value="Tidak">Tidak</option>
-              </datalist>
+                <option value="" disabled>
+                  Please select
+                </option>
+                <option value="YA">Ya</option>
+                <option value="TIDAK">Tidak</option>
+              </select>
             </div>
           </div>
           <div className="mt-4">
@@ -1804,6 +2209,9 @@ export default function Form() {
             </label>
             <input
               type="text"
+              name="jenisUsaha"
+              value={input.jenisUsaha}
+              onChange={handleChange}
               className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
               placeholder="Contoh: Usaha Ternak Ayam, Usaha Kecil Kerajinan Tangan"
             />
@@ -1817,13 +2225,19 @@ export default function Form() {
             </label>
             <input
               type="text"
-              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
+              name="pengeluaranBulanan"
+              value={input.pengeluaranBulanan}
+              onChange={handleChange}
+              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring uppercase"
               placeholder="Contoh: Rp 1.000.000"
             />
           </div>
 
           <div className="flex justify-end mt-6">
-            <button className="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">
+            <button
+              type="submit"
+              className="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
+            >
               Save
             </button>
           </div>
