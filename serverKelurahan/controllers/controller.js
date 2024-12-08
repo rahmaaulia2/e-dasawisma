@@ -222,7 +222,9 @@ class Controller {
         pengeluaranBulanan,
         keterangan,
       } = req.body;
-      const kartuKeluargaName = req.file.originalname; //file
+      console.log(req.body);
+      
+      const kartuKeluargaName = req.file?.originalname; //file
 
       const findByName = await DetailKK.findOne({
         where: { namaLengkap },

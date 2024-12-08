@@ -217,6 +217,7 @@ module.exports = {
       keterangan: {
         type: Sequelize.STRING(150),
         allowNull: false,
+        defaultValue: "-"
       },
       createdAt: {
         allowNull: false,

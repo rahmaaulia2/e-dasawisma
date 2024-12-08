@@ -29,8 +29,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Nama lengkap tidak boleh kosong",
         },
         len: {
-          args: [2, 40],
-          msg: "Nama lengkap harus lebih dari 2 dan maksimal 40 karakter ",
+          args: [1, 40],
+          msg: "Nama lengkap harus lebih dari 1 dan maksimal 40 karakter ",
         },
         isUppercase :{
           msg: "Nama lengkap harus huruf kapital"
@@ -48,8 +48,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Jenis kelamin tidak boleh kosong",
         },
         len: {
-          args: [2, 10],
-          msg: "Jenis kelamin harus lebih dari 2 dan maksimal 10 karakter ",
+          args: [1, 10],
+          msg: "Jenis kelamin harus lebih dari 1 dan maksimal 10 karakter ",
         },
       },
     },
@@ -64,8 +64,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Tempat lahir tidak boleh kosong",
         },
         len: {
-          args: [2, 10],
-          msg: "Tempat lahir harus lebih dari 2 dan maksimal 10 karakter ",
+          args: [1, 10],
+          msg: "Tempat lahir harus lebih dari 1 dan maksimal 10 karakter ",
         }
       },
     },
@@ -119,8 +119,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Status perkawinan tidak boleh kosong",
         },
         len: {
-          args: [2, 20],
-          msg: "Status perkawinan harus lebih dari 2 dan maksimal 20 karakter ",
+          args: [1, 20],
+          msg: "Status perkawinan harus lebih dari 1 dan maksimal 20 karakter ",
         }
       },
     },
@@ -135,8 +135,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Agama tidak boleh kosong",
         },
         len :{
-          args: [2, 10],
-          msg: "Agama harus lebih dari 2 dan maksimal 10 karakter ",
+          args: [1, 10],
+          msg: "Agama harus lebih dari 1 dan maksimal 10 karakter ",
         }
       },
     },
@@ -165,8 +165,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Alamat tidak boleh kosong",
         },
         len:{
-          args: [2, 100],
-          msg: "Alamat harus lebih dari 2 dan maksimal 100 karakter ",
+          args: [1, 100],
+          msg: "Alamat harus lebih dari 1 dan maksimal 100 karakter ",
         }
       },
     },
@@ -181,8 +181,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Pendidikan tidak boleh kosong",
         },
         len :{
-          args: [2, 15],
-          msg: "Pendidikan harus lebih dari 2 dan maksimal 15 karakter ",
+          args: [1, 15],
+          msg: "Pendidikan harus lebih dari 1 dan maksimal 15 karakter ",
         }
       },
     },
@@ -197,8 +197,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Pekerjaan tidak boleh kosong",
         },
         len :{
-          args: [2, 40],
-          msg: "Pekerjaan harus lebih dari 2 dan maksimal 40 karakter ",
+          args: [1, 40],
+          msg: "Pekerjaan harus lebih dari 1 dan maksimal 40 karakter ",
         }
       },
     },
@@ -213,13 +213,13 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Penghasilan sebulan tidak boleh kosong",
         },
         len :{
-          args: [2, 40],
-          msg: "Penghasilan sebulan harus lebih dari 2 dan maksimal 40 karakter ",
+          args: [1, 40],
+          msg: "Penghasilan sebulan harus lebih dari 1 dan maksimal 40 karakter ",
         }
       },
     },
     dokumenKependudukan: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.STRING(15),
       allowNull: false,
       validate: {
         notNull: {
@@ -229,8 +229,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Dokumen kependudukan tidak boleh kosong",
         },
         len :{
-          args: [2, 10],
-          msg: "Dokumen kependudukan harus lebih dari 2 dan maksimal 10 karakter ",
+          args: [1, 15],
+          msg: "Dokumen kependudukan harus lebih dari 1 dan maksimal 15 karakter ",
         }
       },
     },
@@ -277,8 +277,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "PUS KB tidak boleh kosong",
         },
         len : {
-          args: [2, 40],
-          msg: "PUS KB harus lebih dari 2 dan maksimal 40 karakter ",
+          args: [1, 40],
+          msg: "PUS KB harus lebih dari 1 dan maksimal 40 karakter ",
         }
       },
     },
@@ -293,8 +293,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Ibu hamil keluarga tidak boleh kosong",
         },
         len :{
-          args: [2, 10],
-          msg: "Ibu hamil keluarga harus lebih dari 2 dan maksimal 10 karakter ",
+          args: [1, 10],
+          msg: "Ibu hamil keluarga harus lebih dari 1 dan maksimal 10 karakter ",
         }
       },
     },
@@ -309,8 +309,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Ibu menyusui keluarga tidak boleh kosong",
         },
         len :{
-          args: [2, 10],
-          msg: "Ibu menyusui keluarga harus lebih dari 2 dan maksimal 10 karakter ",
+          args: [1, 10],
+          msg: "Ibu menyusui keluarga harus lebih dari 1 dan maksimal 10 karakter ",
         }
       },
     },
@@ -325,8 +325,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Ibu bekerja keluarga tidak boleh kosong",
         },
         len :{
-          args: [2, 10],
-          msg: "Ibu bekerja keluarga harus lebih dari 2 dan maksimal 10 karakter ",
+          args: [1, 10],
+          msg: "Ibu bekerja keluarga harus lebih dari 1 dan maksimal 10 karakter ",
         }
       },
     },
@@ -357,8 +357,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "BB bayi normal tidak boleh kosong",
         },
         len :{
-          args: [2, 20],
-          msg: "BB bayi normal harus lebih dari 2 dan maksimal 20 karakter ",
+          args: [1, 20],
+          msg: "BB bayi normal harus lebih dari 1 dan maksimal 20 karakter ",
         }
       },
     },
@@ -373,8 +373,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "ASI bayi eksklusif tidak boleh kosong",
         },
         len :{
-          args: [2, 20],
-          msg: "ASI bayi eksklusif harus lebih dari 2 dan maksimal 20 karakter ",
+          args: [1, 20],
+          msg: "ASI bayi eksklusif harus lebih dari 1 dan maksimal 20 karakter ",
         }
       },
     },
@@ -389,8 +389,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Bayi posyandu tidak boleh kosong",
         },
         len :{
-          args: [2, 20],
-          msg : "Bayi posyandu harus lebih dari 2 dan maksimal 20 karakter",
+          args: [1, 20],
+          msg : "Bayi posyandu harus lebih dari 1 dan maksimal 20 karakter",
         }
       },
     },
@@ -405,8 +405,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Bayi imunisasi tidak boleh kosong",
         },
         len :{
-          args: [2, 20],
-          msg : "Bayi imunisasi harus lebih dari 2 dan maksimal 20 karakter",
+          args: [1, 20],
+          msg : "Bayi imunisasi harus lebih dari 1 dan maksimal 20 karakter",
         }
       },
     },
@@ -421,8 +421,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "BB/TB bayi normal tidak boleh kosong",
         },
         len :{
-          args: [2, 20],
-          msg : "BB/TB bayi normal harus lebih dari 2 dan maksimal 20 karakter",
+          args: [1, 20],
+          msg : "BB/TB bayi normal harus lebih dari 1 dan maksimal 20 karakter",
         }
       },
     },
@@ -452,8 +452,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Anak sekolah tidak boleh kosong",
         },
         len :{
-          args: [2, 40],
-          msg : "Anak sekolah harus lebih dari 2 dan maksimal 40 karakter",
+          args: [1, 40],
+          msg : "Anak sekolah harus lebih dari 1 dan maksimal 40 karakter",
         }
       },
     },
@@ -468,8 +468,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Anak tidak sekolah tidak boleh kosong",
         },
         len :{
-          args: [2, 50],
-          msg : "Anak tidak sekolah harus lebih dari 2 dan maksimal 50 karakter",
+          args: [1, 50],
+          msg : "Anak tidak sekolah harus lebih dari 1 dan maksimal 50 karakter",
         }
       },
     },
@@ -484,8 +484,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Anak yatim piatu tidak boleh kosong",
         },
         len:{
-          args: [2, 40],
-          msg : "Anak yatim piatu harus lebih dari 2 dan maksimal 40 karakter",
+          args: [1, 40],
+          msg : "Anak yatim piatu harus lebih dari 1 dan maksimal 40 karakter",
         }
       },
     },
@@ -500,8 +500,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Lansia tidak boleh kosong",
         },
         len :{
-          args: [2, 10],
-          msg : "Lansia harus lebih dari 2 dan maksimal 10 karakter",
+          args: [1, 10],
+          msg : "Lansia harus lebih dari 1 dan maksimal 10 karakter",
         }
       },
     },
@@ -516,8 +516,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Keluarga difabel tidak boleh kosong",
         },
         len :{
-          args: [2, 10],
-          msg : "Keluarga difabel harus lebih dari 2 dan maksimal 10 karakter",
+          args: [1, 10],
+          msg : "Keluarga difabel harus lebih dari 1 dan maksimal 10 karakter",
         }
       },
     },
@@ -532,8 +532,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Keluarga cacat mental tidak boleh kosong",
         },
         len :{
-          args: [2, 10],
-          msg : "Keluarga cacat mental harus lebih dari 2 dan maksimal 10 karakter",
+          args: [1, 10],
+          msg : "Keluarga cacat mental harus lebih dari 1 dan maksimal 10 karakter",
         }
       },
     },
@@ -548,8 +548,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Keluarga tidak mendapatkan pengobatan tidak boleh kosong",
         },
         len :{
-          args: [2, 10],
-          msg : "Keluarga tidak mendapatkan pengobatan harus lebih dari 2 dan maksimal 10 karakter",
+          args: [1, 10],
+          msg : "Keluarga tidak mendapatkan pengobatan harus lebih dari 1 dan maksimal 10 karakter",
         }
       },
     },
@@ -564,8 +564,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Bantuan pemerintah tidak boleh kosong",
         },
         len :{
-          args: [2, 50],
-          msg : "Bantuan pemerintah harus lebih dari 2 dan maksimal 50 karakter",
+          args: [1, 50],
+          msg : "Bantuan pemerintah harus lebih dari 1 dan maksimal 50 karakter",
         }
       },
     },
@@ -580,8 +580,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Keluarga merokok tidak boleh kosong",
         },
         len :{
-          args: [2, 10],
-          msg : "Keluarga merokok harus lebih dari 2 dan maksimal 10 karakter",
+          args: [1, 10],
+          msg : "Keluarga merokok harus lebih dari 1 dan maksimal 10 karakter",
         }
       },
     },
@@ -596,8 +596,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Sarana air bersih tidak boleh kosong",
         },
         len :{
-          args: [2, 15],
-          msg : "Sarana air bersih harus lebih dari 2 dan maksimal 15 karakter",
+          args: [1, 15],
+          msg : "Sarana air bersih harus lebih dari 1 dan maksimal 15 karakter",
         },
         isUppercase :{
           msg: "Sarana air bersih harus huruf kapital"
@@ -615,8 +615,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Jamban keluarga tidak boleh kosong",
         },
         len :{
-          args: [2, 5],
-          msg : "Jamban keluarga harus lebih dari 2 dan maksimal 5 karakter",
+          args: [1, 5],
+          msg : "Jamban keluarga harus lebih dari 1 dan maksimal 5 karakter",
         }
       },
     },
@@ -631,7 +631,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Septic tank tidak boleh kosong",
         },
         len :{
-          args: [2, 5],
+          args: [1, 5],
           msg : "Septic tank harus lebih dari 2 dan maksimal 5 karakter",
         }
       },
@@ -647,7 +647,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Pembuangan sampah tidak boleh kosong",
         },
         len :{
-          args: [2, 5],
+          args: [1, 5],
           msg : "Pembuangan sampah harus lebih dari 2 dan maksimal 5 karakter ",
         }
       },
@@ -663,7 +663,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Kriteria rumah tidak boleh kosong",
         },
         len :{
-          args: [2, 20],
+          args: [1, 20],
           msg : "Kriteria rumah harus lebih dari 2 dan maksimal 20 karakter ",
         }
       },
@@ -679,7 +679,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Status rumah tidak boleh kosong",
         },
         len :{
-          args: [2, 15],
+          args: [1, 15],
           msg : "Status rumah harus lebih dari 2 dan maksimal 15 karakter ",
         }
       },
@@ -695,8 +695,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Aktivitas keagamaan tidak boleh kosong",
         },
         len :{
-          args: [2, 5],
-          msg : "Aktivitas keagamaan harus lebih dari 2 dan maksimal 5 karakter ",
+          args: [1, 5],
+          msg : "Aktivitas keagamaan harus lebih dari 1 dan maksimal 5 karakter ",
         }
       },
     },
@@ -712,7 +712,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         len :{
           args: [2, 5],
-          msg : "Aktivitas sosial harus lebih dari 2 dan maksimal 5 karakter ",
+          msg : "Aktivitas sosial harus lebih dari 1 dan maksimal 5 karakter ",
         }
       },
     },
@@ -728,7 +728,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         len :{
           args : [2, 5],
-          msg : "Memiliki toga harus lebih dari 2 dan maksimal 5 karakter ",
+          msg : "Memiliki toga harus lebih dari 1 dan maksimal 5 karakter ",
         }
       },
     },
@@ -744,7 +744,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         len :{
           args: [2, 40],
-          msg : "Jenis usaha harus lebih dari 2 dan maksimal 40 karakter ",
+          msg : "Jenis usaha harus lebih dari 1 dan maksimal 40 karakter ",
         }
       },
     },
@@ -760,7 +760,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         len :{
           args: [2, 40],
-          msg : "Pengeluaran bulanan harus lebih dari 2 dan maksimal 40 karakter ",
+          msg : "Pengeluaran bulanan harus lebih dari 1 dan maksimal 40 karakter ",
         },
         isUppercase :{
           msg: "Pengeluaran bulanan harus huruf kapital"
@@ -769,6 +769,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     keterangan: {
       type: DataTypes.STRING(100),
+      defaultValue: "-",
       allowNull: false,
       validate: {
         notNull: {
