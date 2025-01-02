@@ -46,6 +46,10 @@ const ErrorHandler = (err, req, res, next) => {
       status = 400;
       message = "Name already exist";
       break;
+      case "CannotCreateUser":
+      status = 400;
+      message = "Cannot create user, please check your input";
+      break;
     default:
       status = 500;
       message = "Internal server error";

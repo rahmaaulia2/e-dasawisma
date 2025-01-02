@@ -32,6 +32,10 @@ const upload = multer({ storage });
 router.get("/test", (req, res) => {
   res.send("ini router test");
 });
+router.get('/chart', Controller.buatChart)
+router.get('/filterChart', Controller.chartFilter)
+router.get('/rt', Authentication, Controller.getAllRT);
+router.get('/totalRw', Controller.getTotalRw);
 router.get("/roles",Authentication, Controller.getAllRole); //get roles untuk semua role
 router.post("/login", Controller.login); //login untuk semua role
 router.post("/addUser", Authentication, AuthorizationAdmin, Controller.addUser); //add user hanya untuk admin
