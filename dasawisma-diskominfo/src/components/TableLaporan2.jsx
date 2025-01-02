@@ -1,18 +1,84 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
+import "@cyntler/react-doc-viewer/dist/index.css";
+import ModalUpload from "./ModalUpload";
+import { Link, useNavigate } from "react-router-dom";
 import ServerApi from "../helper/ServerApi";
+import { formatDate } from "../helper/formatDate";
 import Swal from "sweetalert2";
 
-export default function TableUser() {
-  const location = useLocation();
-  const data = location.state.data;
-  const navigate = useNavigate();
-  const [user, setUser] = useState([]);
+export default function TableLaporan2() {
+  // const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const navigate = useNavigate()
+  const [isLoading, setIsLoading] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  // const [fileName, setFileName] = useState("");
+  // const [docs, setDocs] = useState({});
+  const [idKK, setIdKK] = useState("");
+  const [viewOpen, setViewOpen] = useState(false);
+  const [kk, setKk] = useState([]);
+  const [filter, setFilter] = useState({
+    filterKelurahan: "",
+    filterGender: "",
+    filterStatusPerkawinan: "",
+    filterAgama: "",
+    filterRT: "",
+    filterRW: "",
+    filterPendidikan: "",
+    filterPekerjaan: "",
+    filterPenghasilan: "",
+    filterDokumen: "",
+    filterWus: "",
+    filterPus: "",
+    filterPusKB: "",
+    filterIbuHamil: "",
+    filterIbuMenyusui: "",
+    filterIbuBekerja: "",
+    filterBalita: "",
+    filterBbBayi: "",
+    filterAsiBayi: "",
+    filterBayiPosyandu: "",
+    filterBayiImunisasi: "",
+    filterBbTbBayi: "",
+    filterAnakSekolah: "",
+    filterAnakTidakSekolah: "",
+    filterAnakYatimPiatu: "",
+    filterLansia: "",
+    filterDifabel: "",
+    filterCacatMental: "",
+    filterTidakPengobatan: "",
+    filterBantuanPemerintah: "",
+    filterMerokok: "",
+    filterAirBersih: "",
+    filterJamban: "",
+    filterSeptictank: "",
+    filterPembuanganSampah: "",
+    filterKriteriaRumah: "",
+    filterStatusRumah: "",
+    filterKeagamaan: "",
+    filterSosial: "",
+    filterToga: "",
+    searchByNama: "",
+  });
+  const rolee = localStorage.getItem("role");
 
+  const getAllKk = async () => {
+    const params = new URLSearchParams(filter).toString();
+    setIsLoading(true);
+    const response = await fetch(`${ServerApi}KK?${params}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    });
+    const data = await response.json();
+    // console.log(data);
+    setKk(data);
+    setIsLoading(false);
+  };
   useEffect(() => {
-    setUser(data);
-  }, [data]);
-
+    getAllKk();
+  }, [filter]);
   const handleDelete = async(id) => {
     return Swal.fire({
       title: "Are you sure?",
@@ -24,7 +90,7 @@ export default function TableUser() {
       confirmButtonText: "Yes, delete it!",
     }).then(async(result) => {
       if (result.isConfirmed) {
-        const response = await fetch(`${ServerApi}users/${id}`, {
+        const response = await fetch(`${ServerApi}KK/${id}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -48,7 +114,99 @@ export default function TableUser() {
         navigate('/dashboard');
       }
     });
-  };  return (
+  };
+
+  const handleFilterChange = (event) => {
+    const { name, value } = event.target;
+    setFilter((prevFilter) => ({
+      ...prevFilter,
+      [name]: value,
+    }));
+  };
+
+  // function ViewDoc() {
+  //   const docs = [
+  //     {
+  //       uri: "example.pdf",
+  //       fileType: "pdf",
+  //       fileName: "Laporan b",
+  //     },
+  //     {
+  //       uri: "https://s28.q4cdn.com/392171258/files/doc_downloads/test.pdf",
+  //       fileType: "pdf",
+  //       fileName: "Laporan A",
+  //     },
+  //     {
+  //       uri: "https://storage.googleapis.com/flip-prod-mktg-strapi/media-library/Indonesian_Foods_80deed788b/Indonesian_Foods_80deed788b.png",
+  //       fileType: "jpg",
+  //       fileName: "Laporan A",
+  //     },
+  //   ];
+  //   return (
+  //     <DocViewer
+  //       documents={docs}
+  //       pluginRenderers={DocViewerRenderers}
+  //       style={{ height: "100vh" }}
+  //     />
+  //   );
+  // }
+  const docs = [
+    {
+      uri: "example.pdf",
+      fileType: "pdf",
+      fileName: "Laporan b",
+    },
+    {
+      uri: "https://s28.q4cdn.com/392171258/files/doc_downloads/test.pdf",
+      fileType: "pdf",
+      fileName: "Laporan A",
+    },
+    {
+      uri: "https://storage.googleapis.com/flip-prod-mktg-strapi/media-library/Indonesian_Foods_80deed788b/Indonesian_Foods_80deed788b.png",
+      fileType: "jpg",
+      fileName: "Laporan A",
+    },
+  ];
+  // const getFile = async (fileName) => {
+  //   try {
+  //     setDocs({
+  //       uri: `${ServerApi}uploads/${fileName}`,
+  //       fileType: "pdf",
+  //       mimeType: "application/pdf",
+  //     });
+  //     // console.log(fileName,"ini filenameee")
+  //     // const res =
+  //     // // await fetch(`${ServerApi}uploads/${fileName}`, {
+  //     // //   method: "GET",
+  //     // //   headers: {
+  //     // //     Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+  //     // //   },
+  //     // // });
+  //     // await fetch(`${ServerApi}uploads/${fileName}`,{
+  //     //   method: "GET",
+  //     //   headers: {
+  //     //     Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+  //     //   },
+  //     // })
+  //     // .then(res => res.json())
+  //     // .then(data => {
+  //     //   setDocs([data]); // react-doc-viewer expects an array of documents
+  //     // });
+  //     // console.log(res,"ini res filee")
+  //     // const data = await res.json();
+  //     // console.log(data,"ini data filee")
+  //     // setDocs(data)
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // const [selectedDocs, setSelectedDocs] = useState([]);
+  if (modalOpen) {
+    return (
+      <ModalUpload setModalOpen={setModalOpen} id={idKK} getkk={getAllKk} />
+    );
+  } else if (isLoading) {
+  return (
     <div className="min-h-screen bg-gray-50">
       <div className="p-4 lg:p-6">
         <div className="mb-4">
@@ -90,10 +248,10 @@ export default function TableUser() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {user.map((item, index) => (
+                  {kk.map((item, index) => (
                     <tr key={index} className="hover:bg-gray-50">
                       <td className="p-4 text-sm text-gray-600 whitespace-nowrap">{index + 1}</td>
-                      <td className="p-4 text-sm text-gray-900 whitespace-nowrap">{item.nama}</td>
+                      {/* <td className="p-4 text-sm text-gray-900 whitespace-nowrap">{item.nama}</td>
                       <td className="p-4 text-sm text-violet-500 whitespace-nowrap">{item.email}</td>
                       <td className="p-4 text-sm text-gray-500 whitespace-nowrap">{item.noHp}</td>
                       <td className="p-4 text-sm text-gray-500 whitespace-nowrap">{item.alamat}</td>
@@ -101,7 +259,7 @@ export default function TableUser() {
                         <span className="px-2 py-1 text-xs font-medium text-emerald-700 bg-emerald-100 rounded-full">
                           {item.Role.name}
                         </span>
-                      </td>
+                      </td> */}
                       <td className="p-4 whitespace-nowrap">
                         <div className="flex gap-2">
                           <button
@@ -133,9 +291,9 @@ export default function TableUser() {
 
           {/* Card view for mobile screens */}
           <div className="md:hidden">
-            {user.map((item, index) => (
+            {kk.map((item, index) => (
               <div key={index} className="p-4 border-b border-gray-200">
-                <div className="flex justify-between items-start mb-2">
+                {/* <div className="flex justify-between items-start mb-2">
                   <div>
                     <div className="text-sm font-medium text-gray-900">{item.nama}</div>
                     <div className="text-sm text-violet-500">{item.email}</div>
@@ -151,7 +309,7 @@ export default function TableUser() {
                   <div className="text-sm text-gray-500">
                     <span className="font-medium">Alamat:</span> {item.alamat}
                   </div>
-                </div>
+                </div> */}
                 <div className="flex gap-2 justify-end">
                   <button
                     onClick={() => navigate('/editUser', {state: {id: item.id}})}
@@ -180,4 +338,5 @@ export default function TableUser() {
       </div>
     </div>
   );
+}
 }

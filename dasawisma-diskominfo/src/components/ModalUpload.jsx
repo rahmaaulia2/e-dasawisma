@@ -1,9 +1,55 @@
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import ServerApi from "../helper/ServerApi";
 
-export default function ModalUpload({ setModalOpen }) {
+export default function ModalUpload({ setModalOpen, id, getkk }) {
   const [selectedDocs, setSelectedDocs] = useState([]);
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const handleSubmit = async () => {
+    try {
+      console.log(selectedDocs, "ini select doc");
+      const formData = new FormData();
+      formData.append("kartuKeluarga", selectedDocs[0]);
+      setIsLoading(true);
+      const response = await fetch(`${ServerApi}KK/${id}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+        body: formData,
+      });
+      console.log(response, "ini respon dari modal form");
+      setIsLoading(false);
+      Swal.fire({
+        icon: "success",
+        title: `Success upload`,
+        text: "I will close in 2 seconds.",
+        timer: 2000,
+      });
+      getkk();
+      setModalOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  if (isLoading) {
+    return (
+      <>
+        <div className="flex items-center justify-center min-h-screen">
+          <dotlottie-player
+            src="https://lottie.host/47837f57-413f-4424-9cc0-873217624825/97zYatYfkI.json"
+            background="transparent"
+            speed="1"
+            style={{ width: 300, height: 300 }}
+            loop
+            autoPlay
+          ></dotlottie-player>
+        </div>
+      </>
+    );
+  }
   return (
     <>
       {/* component */}
@@ -15,10 +61,10 @@ export default function ModalUpload({ setModalOpen }) {
           <article
             aria-label="File Upload Modal"
             className="relative h-full flex flex-col bg-white shadow-xl rounded-md"
-            ondrop="dropHandler(event);"
-            ondragover="dragOverHandler(event);"
-            ondragleave="dragLeaveHandler(event);"
-            ondragenter="dragEnterHandler(event);"
+            onDrop="dropHandler(event);"
+            onDragOver="dragOverHandler(event);"
+            onDragLeave="dragLeaveHandler(event);"
+            onDragEnter="dragEnterHandler(event);"
           >
             {/* overlay */}
             {selectedDocs.length === 0 ? (
@@ -40,7 +86,7 @@ export default function ModalUpload({ setModalOpen }) {
                   </i>
                   <p className="text-lg text-blue-700">Drop files to upload</p>
                 </div>
-                <section className="h-full overflow-auto p-8 w-full h-full flex flex-col">
+                <section className="overflow-auto p-8 w-full h-full flex flex-col">
                   <header className="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center">
                     <p className="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
                       <span>Drag and drop your</span>&nbsp;
@@ -66,11 +112,11 @@ export default function ModalUpload({ setModalOpen }) {
                 </section>
               </div>
             ) : (
-              <section className="h-full overflow-auto p-8 w-full h-full flex flex-col">
+              <section className="overflow-auto p-8 w-full h-full flex flex-col">
                 <ul id="gallery" className="flex flex-1 flex-wrap -m-1">
                   <li
                     id="empty"
-                    className="h-full w-full text-center flex flex-col items-center justify-center items-center"
+                    className="h-full w-full text-center flex flex-col justify-center items-center"
                   >
                     <div className="max-w-md w-full">
                       <DocViewer
@@ -95,6 +141,9 @@ export default function ModalUpload({ setModalOpen }) {
             <footer className="flex justify-end px-8 pb-8 pt-4">
               <button
                 id="submit"
+                onClick={() => {
+                  handleSubmit();
+                }}
                 className="rounded-md px-3 py-1 bg-blue-700 hover:bg-blue-500 text-white focus:shadow-outline focus:outline-none"
               >
                 Upload now

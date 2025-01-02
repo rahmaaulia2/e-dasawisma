@@ -7,8 +7,6 @@ import AddUser from "../src/pages/AddUser";
 import Dashboard from "../src/pages/Dashboard";
 import TableUser from "../src/components/TableUser";
 import TableLaporan from "../src/components/TableLaporan";
-import EditUser from "../src/pages/editUser";
-import TableLaporan2 from "../src/components/TableLaporan2";
 
 const loader = () => {
   // console.log(localStorage.access_token, localStorage.role);
@@ -83,18 +81,10 @@ const router = createBrowserRouter([
       element : <Dasawisma/>,
       loader : combinedLoaderSuperRt
     },{
-      path : "/dasawisma/:idDasawisma",
-      element : <Dasawisma/>,
-      loader : combinedLoaderSuperRt
-    },{
       path : "/addUser",
       element :<AddUser/>,
       loader : combinedLoaderAdmin
-    },{
-      path : "/editUser",
-      element :<EditUser/>,
-      loader : combinedLoaderAdmin
-    },{
+    }, {
       path : "/dashboard",
       element : <Dashboard/>,
       loader : combinedLoaderSuperUser
@@ -104,7 +94,6 @@ const router = createBrowserRouter([
       loader : combinedLoaderAdmin
     }, {
       path :"/laporan",
-      // element: <TableLaporan2/>,
       element :<TableLaporan/>,
       loader : combinedLoaderSuperUser
     }]

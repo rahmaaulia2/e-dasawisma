@@ -1,185 +1,202 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // State untuk menu di mobile
-  const [isOpen, setIsOpen] = useState(false); // State untuk dropdown layanan
-  const navigate = useNavigate();
-  const [role, ] = useState(localStorage.getItem("role"));
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [role] = useState(localStorage.getItem("role"));
 
   const toggleDropdown = () => {
-    setIsOpen(!isOpen); // Membuka atau menutup dropdown layanan
+    setIsOpen(!isOpen);
   };
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen); // Membuka atau menutup menu di mobile
+    setIsMenuOpen(!isMenuOpen);
   };
 
   const handleLogout = () => {
     localStorage.clear();
-    navigate("/");
+    window.location.href = "/";
   };
 
   return (
-    <>
-      <nav className="relative z-10 w-full mt-4 bg-white md:relative md:bg-transparent">
-        <div className="container m-auto px-2 md:px-12 lg:px-7">
-          <div className="flex flex-wrap items-center justify-between py-2 gap-6 md:py-2 md:gap-0">
-            <div className="w-full px-6 flex justify-between lg:w-max md:px-0">
-              <a
-                href="https://tailus.io/blocks/hero-section"
-                aria-label="logo"
-                className="flex space-x-2 items-center"
-              >
-                <img
-                  src="logo.png"
-                  className="w-12"
-                  alt="tailus logo"
-                  width={144}
-                  height={133}
-                />
-                <span className="text-2xl font-bold text-yellow-900">
-                  SI <span className="text-yellow-700">DAWET</span>
-                </span>
-              </a>
+    <nav className="relative top-0 left-0 right-0 z-50 bg-white shadow-md">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 md:h-20">
+          {/* Logo Section */}
+          <div className="flex items-center">
+            <a href="/" className="flex items-center space-x-2">
+              <img
+                src="logo.png"
+                className="w-8 md:w-12"
+                alt="logo"
+                width={144}
+                height={133}
+              />
+              <span className="text-xl md:text-2xl font-bold text-yellow-900">
+                SI <span className="text-yellow-700">DAWET</span>
+              </span>
+            </a>
+          </div>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
+            <a
+              href="/"
+              className="text-gray-600 hover:text-yellow-700 transition-colors"
+            >
+              Beranda
+            </a>
+            
+            {/* Desktop Dropdown */}
+            <div className="relative">
               <button
-                aria-label="hamburger"
-                id="hamburger"
-                className="relative w-10 h-10 -mr-2 lg:hidden"
-                onClick={toggleMenu} // Tambahkan onClick untuk toggle menu
+                onClick={toggleDropdown}
+                className="flex items-center space-x-1 text-gray-600 hover:text-yellow-700"
               >
-                <div
-                  aria-hidden="true"
-                  id="line"
-                  className="inset-0 w-6 h-0.5 m-auto rounded bg-yellow-900 transition duration-300"
-                />
-                <div
-                  aria-hidden="true"
-                  id="line2"
-                  className="inset-0 w-6 h-0.5 mt-2 m-auto rounded bg-yellow-900 transition duration-300"
-                />
+                <span>Layanan</span>
+                <svg
+                  className="w-4 h-4"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                    clipRule="evenodd"
+                  />
+                </svg>
               </button>
+
+              {isOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
+                  {role === "kelurahan" && (
+                    <a
+                      href="/addUser"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50"
+                    >
+                      Add User
+                    </a>
+                  )}
+                  {role === "rt" && (
+                    <a
+                      href="/dasawisma"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50"
+                    >
+                      Dasawisma
+                    </a>
+                  )}
+                  {(role === "rt" || role === "rw" || role === "kelurahan") && (
+                    <a
+                      href="/dashboard"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50"
+                    >
+                      Dashboard
+                    </a>
+                  )}
+                </div>
+              )}
             </div>
 
-            {/* Tambahkan logika untuk menampilkan menu di mobile */}
-            <div
-              className={`${
-                isMenuOpen ? "block" : "hidden"
-              } w-full lg:flex flex-wrap justify-end items-center space-y-6 p-6 rounded-xl bg-white md:space-y-0 md:p-0 md:flex-nowrap md:bg-transparent lg:w-7/12`}
+            {/* Auth Buttons */}
+            {localStorage.getItem("access_token") &&
+            localStorage.getItem("access_token") !== "undefined" ? (
+              <button
+                onClick={handleLogout}
+                className="px-6 py-2 bg-yellow-300 text-yellow-900 rounded-full hover:bg-yellow-200 transition-colors"
+              >
+                Logout
+              </button>
+            ) : (
+              <a
+                href="/login"
+                className="px-6 py-2 bg-yellow-300 text-yellow-900 rounded-full hover:bg-yellow-200 transition-colors"
+              >
+                Login
+              </a>
+            )}
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={toggleMenu}
+            className="md:hidden p-2 rounded-md text-gray-600 hover:text-yellow-700 hover:bg-yellow-50"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              <div className="text-gray-600 lg:pr-4">
-                <ul className="space-y-6 tracking-wide font-medium text-sm md:flex md:space-y-0">
-                  <li>
-                    <a
-                      href="/"
-                      className="block md:px-4 transition hover:text-yellow-700"
-                    >
-                      <span>Beranda</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="w-full space-y-2 border-yellow-200 lg:space-y-0 md:w-max lg:border-l">
+              {isMenuOpen ? (
+                <path d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+        </div>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-white border-t">
+            <div className="px-2 pt-2 pb-3 space-y-1">
+              <a
+                href="/"
+                className="block px-3 py-2 rounded-md text-gray-600 hover:text-yellow-700 hover:bg-yellow-50"
+              >
+                Beranda
+              </a>
+              
+              {/* Mobile Dropdown Items */}
+              {role === "kelurahan" && (
+                <a
+                  href="/addUser"
+                  className="block px-3 py-2 rounded-md text-gray-600 hover:text-yellow-700 hover:bg-yellow-50"
+                >
+                  Add User
+                </a>
+              )}
+              {role === "rt" && (
+                <a
+                  href="/dasawisma"
+                  className="block px-3 py-2 rounded-md text-gray-600 hover:text-yellow-700 hover:bg-yellow-50"
+                >
+                  Dasawisma
+                </a>
+              )}
+              {(role === "rt" || role === "rw" || role === "kelurahan") && (
+                <a
+                  href="/dashboard"
+                  className="block px-3 py-2 rounded-md text-gray-600 hover:text-yellow-700 hover:bg-yellow-50"
+                >
+                  Dashboard
+                </a>
+              )}
+
+              {/* Mobile Auth Button */}
+              {localStorage.getItem("access_token") &&
+              localStorage.getItem("access_token") !== "undefined" ? (
                 <button
-                  type="button"
-                  onClick={toggleDropdown}
-                  title="Start buying"
-                  className="inline-flex w-full py-2 px-6 text-center rounded-full transition active:bg-yellow-200 focus:bg-yellow-100 sm:w-max"
+                  onClick={handleLogout}
+                  className="w-full text-left px-3 py-2 rounded-md text-yellow-900 bg-yellow-300 hover:bg-yellow-200"
                 >
-                  <span className="block text-yellow-800 font-semibold text-sm">
-                    Layanan
-                  </span>
-                  <svg
-                    className="-mr-1 h-5 w-5 text-gray-400"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  Logout
                 </button>
-                <div
-                  className={`${
-                    isOpen
-                      ? "transition ease-out duration-100 transform opacity-100 scale-100"
-                      : "transition ease-in duration-75 transform opacity-0 scale-95"
-                  } absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
-                  role="menu"
-                  aria-orientation="vertical"
-                  aria-labelledby="menu-button"
+              ) : (
+                <a
+                  href="/login"
+                  className="block px-3 py-2 rounded-md text-yellow-900 bg-yellow-300 hover:bg-yellow-200"
                 >
-                  <div className="py-1" role="none">
-                    {role === "kelurahan" && (
-                      <a
-                        href="/addUser"
-                        className="block px-4 py-2 text-sm text-gray-700"
-                        role="menuitem"
-                        id="menu-item-0"
-                      >
-                        Add User
-                      </a>
-                    )}
-
-                    {(role === "rt") && (
-                      <a
-                        href="/dasawisma"
-                        className="block px-4 py-2 text-sm text-gray-700"
-                        role="menuitem"
-                        id="menu-item-2"
-                      >
-                        Dasawisma
-                      </a>
-                    )}
-
-                    {(role === "rt" ||
-                      role === "rw" ||
-                      role === "kelurahan" ) && (
-                      <a
-                        href="/dashboard"
-                        className="block px-4 py-2 text-sm text-gray-700"
-                        role="menuitem"
-                        id="menu-item-0"
-                      >
-                        Dashboard
-                      </a>
-                    )}
-                  </div>
-                </div>
-
-                {localStorage.getItem("access_token") &&
-                localStorage.getItem("access_token") !== "undefined" ? (
-                  <button
-                    onClick={handleLogout}
-                    type="button"
-                    title="logout"
-                    className="w-full py-2 px-6 text-center rounded-full transition bg-yellow-300 hover:bg-yellow-100 active:bg-yellow-400 focus:bg-yellow-300 sm:w-max"
-                  >
-                    <span className="block text-yellow-900 font-semibold text-sm">
-                      Logout
-                    </span>
-                  </button>
-                ) : (
-                  <Link to={"/login"}>
-                    <button
-                      type="button"
-                      title="login"
-                      className="w-full py-2 px-6 text-center rounded-full transition bg-yellow-300 hover:bg-yellow-100 active:bg-yellow-400 focus:bg-yellow-300 sm:w-max"
-                    >
-                      <span className="block text-yellow-900 font-semibold text-sm">
-                        Login
-                      </span>
-                    </button>
-                  </Link>
-                )}
-              </div>
+                  Login
+                </a>
+              )}
             </div>
           </div>
-        </div>
-      </nav>
-    </>
+        )}
+      </div>
+    </nav>
   );
 }

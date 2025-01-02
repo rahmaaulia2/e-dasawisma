@@ -1,24 +1,27 @@
 import { useEffect, useState } from "react";
 import ServerApi from "../helper/ServerApi";
-import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
+import { useLocation, useNavigate } from "react-router-dom";
 
-export default function AddUser() {
+export default function EditUser() {
+  const location = useLocation();
   const [filteredRT, setFilteredRT] = useState([]);
-    const [dataRt, setDataRt] = useState([]);
-    const navigate = useNavigate();
-    const getRt = async () => {
-      const response = await fetch(`${ServerApi}rt`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      });
-      const data = await response.json();
-      console.log(data, "ini response rt");
-      setDataRt(data);
-    };
+  const [dataRt, setDataRt] = useState([]);
+  const navigate = useNavigate();
+
+  const getRt = async () => {
+    const response = await fetch(`${ServerApi}rt`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    });
+    const data = await response.json();
+    console.log(data, "ini response rt");
+    setDataRt(data);
+  };
+  // console.log(location.state, "ini location");
+  const { id } = location.state || {};
   const [input, setInput] = useState({
     nama: "",
     email: "",
@@ -46,13 +49,27 @@ export default function AddUser() {
       }));
     }
   };
-   useEffect(() => {
-      getRt();
-    }, []);
+  const getUser = async () => {
+    const response = await fetch(`${ServerApi}users/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    });
+    const data = await response.json();
+    console.log(data, "ini response");
+    setInput(data);
+    // console.log(response.json(), "ini response json");
+  };
+  useEffect(() => {
+    getUser();
+    getRt();
+  }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch(`${ServerApi}addUser`, {
-      method: "POST",
+    const response = await fetch(`${ServerApi}users/${id}`, {
+      method: "PATCH",
       body: JSON.stringify(input),
       headers: {
         "Content-Type": "application/json",
@@ -61,17 +78,14 @@ export default function AddUser() {
     });
     const res = await response.json();
     console.log(res);
-    if (!res.message.includes("Created")) {
-      console.log(res.message, "ini res message gagal");
+    if (!res.ok) {
       Swal.fire({
         icon: "error",
         title: `${res.message}`,
         text: "I will close in 2 seconds.",
         timer: 2000,
       });
-      return
     }
-    console.log(res.message, "ini res message sukses");
     Swal.fire({
       icon: "success",
       title: `${res.message}`,
@@ -88,7 +102,7 @@ export default function AddUser() {
           <div className="relative min-h-screen flex flex-col sm:justify-center items-center">
             <div className="mt-8 lg:w-1/2 lg:mt-0 ">
               <span className="block text-2xl text-gray-700 text-center font-semibold mb-5">
-                Add User
+                Edit User
               </span>
               <form onSubmit={handleSubmit} className="w-full lg:max-w-xl ">
                 <div className="relative flex items-center mt-4">
@@ -209,7 +223,7 @@ export default function AddUser() {
                     <option value="3">RT</option>
                   </select>
                 </div>
-                <div className="relative flex items-center mt-4">
+                {/* <div className="relative flex items-center mt-4">
                   <select
                     name="RwId"
                     value={input.RwId}
@@ -243,39 +257,17 @@ export default function AddUser() {
                       </option>
                     ))}
                   </select>
-                </div>
-                <div className="relative flex items-center mt-4">
-                  <span className="absolute">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="w-6 h-6 mx-3 text-gray-300 dark:text-gray-500"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                      />
-                    </svg>
-                  </span>
-                  <input
-                    type="password"
-                    name="password"
-                    value={input.password}
-                    onChange={handleChange}
-                    className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                    placeholder="Password"
-                  />
-                </div>
+                </div> */}
+                {/* <div className="mt-4">
+                  <p>Selected RW ID: {input.RwId}</p>
+                  <p>Selected RT ID: {input.RtId}</p>
+                </div> */}
                 <div className="mt-8 md:flex md:items-center">
                   <button
                     type="submit"
                     className="block w-full px-10 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
                   >
-                    Create User
+                    Update User
                   </button>
                 </div>
               </form>

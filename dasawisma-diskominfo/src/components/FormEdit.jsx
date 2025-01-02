@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import ServerApi from "../helper/ServerApi";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { formatDate } from "../helper/formatDate";
 
-export default function Form() {
+export default function FormEdit() {
+  const params = useParams();
+  // console.log(params, "ini paraammmss DI FORM EDIT");
+  const id = params.idDasawisma
   const [input, setInput] = useState({
     namaLengkap: "",
     jenisKelamin: "",
@@ -55,7 +59,7 @@ export default function Form() {
     pengeluaranBulanan: "",
     keterangan: "-",
   });
-  const [file, setFile] = useState(null)
+  const [file, setFile] = useState(null);
   const [filteredRT, setFilteredRT] = useState([]);
   const [dataRt, setDataRt] = useState([]);
   const navigate = useNavigate();
@@ -72,6 +76,14 @@ export default function Form() {
     console.log(data, "ini response rt");
     setDataRt(data);
   };
+  const filterRt = dataRt.find((el)=>{
+    const result = el.id === input.RtId
+    if(result){
+      console.log(el.id, el.nomor)
+      return el.nomor
+    }
+    console.log(result)
+  })
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -83,34 +95,53 @@ export default function Form() {
       const filtered = dataRt.filter((item) => item.RWCode === parseInt(value));
       console.log(filtered, "ini filtered");
       setFilteredRT(filtered);
+    
+      // Hanya reset RtId jika filteredRT kosong
       setInput((prev) => ({
         ...prev,
-        RtId: "",
+        RtId: filtered.length ? prev.RtId : "",
       }));
     }
+    
+  };
+  const getKKbyId = async (id) => {
+    const res = await fetch(`${ServerApi}KK/${id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    });
+    // console.log(res, 'ini res getKKbyId')
+    const data = await res.json()
+    console.log(data,"ini dataaaaaaaaaaaaaaaaaaaaaaaaaa")
+    setInput(data)
   };
   useEffect(() => {
-      getRt();
-    }, []);
+    getRt();
+    getKKbyId(id);
+    console.log("ini page form edit ");
+  }, []);
   const handleFileChange = (event) => {
     setFile(event.target.files[0]); // Simpan file yang dipilih dalam state
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const form = new FormData()
+    const form = new FormData();
     Object.entries(input).forEach(([key, value]) => {
+      // const upper = value.toUpperCase()
+      // console.log(upper, "ini uppperr")
       form.append(key, value);
     });
     if (file) {
-      form.append('kartuKeluarga', file);
+      form.append("kartuKeluarga", file);
     }
     // console.log(...form.entries());
     // const params = new URLSearchParams(filter).toString();
     console.log(form, "<<<<<<<<<<<<<");
-    
-    const response = await fetch(`${ServerApi}addKK`, {
-      method: "POST",
+    //ini editttt
+    const response = await fetch(`${ServerApi}KK/${id}`, {
+      method: "PATCH",
       body: form,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -118,17 +149,17 @@ export default function Form() {
     });
     const res = await response.json();
     console.log(res);
-    if(res.message=== 'Success input dasawisma'){
+    if (res.message === "Detail KK Updated") {
       Swal.fire({
-        icon : "success",
-        title: `${res.message}`,
+        icon: "success",
+        title: `Success update data`,
         text: "I will close in 2 seconds.",
         timer: 2000,
       });
       navigate("/dashboard");
-    }else {
+    } else {
       Swal.fire({
-        icon : "error",
+        icon: "error",
         title: `${res.message}`,
         text: "I will close in 2 seconds.",
         timer: 2000,
@@ -140,7 +171,7 @@ export default function Form() {
     <>
       <section className="mt-4 mb-4 max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
         <h2 className="text-lg font-semibold text-gray-700 capitalize dark:text-white">
-          Form Dasawisma
+          Form Edit Dasawisma
         </h2>
         <form onSubmit={handleSubmit}>
           <div className="mt-4">
@@ -206,7 +237,7 @@ export default function Form() {
               <input
                 type="date"
                 name="tanggalLahir"
-                value={input.tanggalLahir}
+                value={formatDate(input.tanggalLahir)}
                 onChange={handleChange}
                 className="block w-full px-3 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
               />
@@ -354,8 +385,8 @@ export default function Form() {
               </select>
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
-          <div>
+          {/* <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
+            <div>
               <label
                 htmlFor="selectRW"
                 className="block text-sm font-medium text-gray-900"
@@ -372,13 +403,11 @@ export default function Form() {
                 <option value="" disabled>
                   Please select
                 </option>
-                {[...new Set(dataRt.map((item) => item.RWCode))].map(
-                      (rw) => (
-                        <option key={rw} value={rw}>
-                          RW {rw}
-                        </option>
-                      )
-                    )}
+                {[...new Set(dataRt.map((item) => item.RWCode))].map((rw) => (
+                  <option key={rw} value={rw}>
+                    RW {rw}
+                  </option>
+                ))}
               </select>
             </div>
             <div>
@@ -400,18 +429,17 @@ export default function Form() {
                   Please select
                 </option>
                 {filteredRT.map((rt) => (
-                      <option key={rt.id} value={rt.id}>
-                        RT {rt.nomor}
-                      </option>
-                    ))}
+                  <option key={rt.id} value={rt.id}>
+                    RT {rt.nomor || filterRt}
+                  </option>
+                ))}
               </select>
             </div>
-            {/* <div className="mt-4">
+            <div className="mt-4">
                   <p>Selected RW ID: {input.RwId}</p>
                   <p>Selected RT ID: {input.RtId}</p>
-                </div> */}
-            
-          </div>
+                </div>
+          </div> */}
           <div className="mt-4">
             <label
               className="block text-sm font-medium text-gray-900"
@@ -437,33 +465,6 @@ export default function Form() {
               >
                 Pendidikan
               </label>
-
-              {/* <div className="relative mt-1.5">
-                <input
-                  type="text"
-                  list="selectPendidikanList"
-                  id="selectPendidikan"
-                  className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
-                  placeholder="Please select"
-                />
-
-                <span className="absolute inset-y-0 end-0 flex w-8 items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="size-5 text-gray-500"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
-                    />
-                  </svg>
-                </span>
-              </div> */}
 
               <select
                 name="pendidikan"
@@ -496,7 +497,9 @@ export default function Form() {
                 onChange={handleChange}
                 className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
               >
-                <option value="" disabled>Please Select</option>
+                <option value="" disabled>
+                  Please Select
+                </option>
                 <option value="PNS/TNI/POLRI">PNS/TNI/POLRI</option>
                 <option value="KARYAWAN SWASTA">Karyawan Swasta</option>
                 <option value="WIRASWASTA">Wiraswasta</option>
@@ -598,10 +601,15 @@ export default function Form() {
                 </span>
               </div> */}
 
-              <select name="dokumenKependudukan"
+              <select
+                name="dokumenKependudukan"
                 value={input.dokumenKependudukan}
-                onChange={handleChange} className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300" >
-                  <option value="" disabled>Please Select</option>
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
+              >
+                <option value="" disabled>
+                  Please Select
+                </option>
                 <option value="LENGKAP">Lengkap</option>
                 <option value="TIDAK LENGKAP">Tidak Lengkap</option>
               </select>
@@ -699,7 +707,9 @@ export default function Form() {
                 onChange={handleChange}
                 className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:file:bg-gray-800 dark:file:text-gray-200 dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:focus:border-blue-300"
               >
-                <option value="" disabled>Please Select</option>
+                <option value="" disabled>
+                  Please Select
+                </option>
                 <option value="YA">Ya</option>
                 <option value="TIDAK">Tidak</option>
               </select>
@@ -2128,6 +2138,22 @@ export default function Form() {
               onChange={handleChange}
               className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring uppercase"
               placeholder="Contoh: Rp 1.000.000"
+            />
+          </div>
+          <div className="mt-4">
+            <label
+              className="block text-sm font-medium text-gray-900"
+              htmlFor="pengeluaranBulanan"
+            >
+              Keterangan
+            </label>
+            <input
+              type="text"
+              name="keterangan"
+              value={input.keterangan}
+              onChange={handleChange}
+              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring uppercase"
+              placeholder="Keterangan"
             />
           </div>
 

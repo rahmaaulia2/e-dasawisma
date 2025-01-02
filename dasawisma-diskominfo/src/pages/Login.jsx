@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ServerApi from "../helper/ServerApi";
 import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 // import Swal from "sweetalert2";
 
 export default function Login() {
@@ -36,6 +37,18 @@ export default function Login() {
       if (tokens !== undefined) {
         localStorage.setItem("access_token", tokens);
         localStorage.setItem("role", data.role);
+        Swal.fire({
+          icon: "success",
+          title: `Success Login`,
+          text: "I will close in 2 seconds.",
+          timer: 2000,
+        });
+      }else {
+        Swal.fire({
+          // title: "Good job!",
+          text: `${data.message}`,
+          icon: "error",
+        });
       }
       setIsLoading(false);
       navigate("/");
