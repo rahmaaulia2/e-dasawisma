@@ -7,7 +7,7 @@ import { formatDate } from "../helper/formatDate";
 export default function FormEdit() {
   const params = useParams();
   // console.log(params, "ini paraammmss DI FORM EDIT");
-  const id = params.idDasawisma
+  const id = params.idDasawisma;
   const [input, setInput] = useState({
     namaLengkap: "",
     jenisKelamin: "",
@@ -76,14 +76,14 @@ export default function FormEdit() {
     console.log(data, "ini response rt");
     setDataRt(data);
   };
-  const filterRt = dataRt.find((el)=>{
-    const result = el.id === input.RtId
-    if(result){
-      console.log(el.id, el.nomor)
-      return el.nomor
+  const filterRt = dataRt.find((el) => {
+    const result = el.id === input.RtId;
+    if (result) {
+      console.log(el.id, el.nomor);
+      return el.nomor;
     }
-    console.log(result)
-  })
+    console.log(result);
+  });
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -95,14 +95,13 @@ export default function FormEdit() {
       const filtered = dataRt.filter((item) => item.RWCode === parseInt(value));
       console.log(filtered, "ini filtered");
       setFilteredRT(filtered);
-    
+
       // Hanya reset RtId jika filteredRT kosong
       setInput((prev) => ({
         ...prev,
         RtId: filtered.length ? prev.RtId : "",
       }));
     }
-    
   };
   const getKKbyId = async (id) => {
     const res = await fetch(`${ServerApi}KK/${id}`, {
@@ -112,9 +111,9 @@ export default function FormEdit() {
       },
     });
     // console.log(res, 'ini res getKKbyId')
-    const data = await res.json()
-    console.log(data,"ini dataaaaaaaaaaaaaaaaaaaaaaaaaa")
-    setInput(data)
+    const data = await res.json();
+    console.log(data, "ini dataaaaaaaaaaaaaaaaaaaaaaaaaa");
+    setInput(data);
   };
   useEffect(() => {
     getRt();
@@ -385,7 +384,7 @@ export default function FormEdit() {
               </select>
             </div>
           </div>
-          {/* <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
             <div>
               <label
                 htmlFor="selectRW"
@@ -436,10 +435,10 @@ export default function FormEdit() {
               </select>
             </div>
             <div className="mt-4">
-                  <p>Selected RW ID: {input.RwId}</p>
-                  <p>Selected RT ID: {input.RtId}</p>
-                </div>
-          </div> */}
+              <p>Selected RW ID: {input.RwId}</p>
+              <p>Selected RT ID: {input.RtId}</p>
+            </div>
+          </div>
           <div className="mt-4">
             <label
               className="block text-sm font-medium text-gray-900"

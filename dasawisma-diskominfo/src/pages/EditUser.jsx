@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ServerApi from "../helper/ServerApi";
 import { useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function EditUser() {
   const location = useLocation();

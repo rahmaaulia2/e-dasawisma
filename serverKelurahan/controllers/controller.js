@@ -66,7 +66,9 @@ class Controller {
   }
   static async getAllUsers(req, res, next) {
     try {
-      const { filterRole, search } = req.query;
+      const { filterRole, search,page } = req.query;
+      let limit = 10;
+      let offset = 1;
       let paramsquery = {
         attributes: {
           exclude: ["password", "createdAt", "updatedAt"],
@@ -87,6 +89,21 @@ class Controller {
         paramsquery.where = { "$Role.name$": filterRole };
       } else if (search) {
         paramsquery.where = { nama: { [Op.iLike]: `%${search}%` } };
+      }
+      if (page) {
+        if (page.size) {
+          console.log('masuk sini', page.size)
+          limit = page.size;
+          paramsquery.limit = limit;
+        } else {
+          paramsquery.limit = limit;
+        }
+        if (page.number) {
+          offset = page.number;
+          paramsquery.offset = limit * (offset - 1);
+        } else {
+          paramsquery.offset = limit * (offset - 1);
+        }
       }
       const users = await User.findAll(paramsquery);
       res.status(200).json(users);
@@ -342,6 +359,7 @@ class Controller {
         searchByNama,
         page,
       } = req.query;
+      console.log(page, 'ini pageeeeeeee')
       let limit = 10;
       let offset = 1;
       let paramsquery = {
@@ -361,6 +379,7 @@ class Controller {
       };
       if (page) {
         if (page.size) {
+          console.log('masuk sini', page.size)
           limit = page.size;
           paramsquery.limit = limit;
         } else {

@@ -58,7 +58,7 @@ export default function Dashboard() {
                     {kk.length}
                   </div>
                   <div className="text-sm sm:text-base font-medium text-gray-500 mt-1">
-                    Total Laporan
+                    Total KK
                   </div>
                 </div>
                 <div className="bg-amber-100 p-3 rounded-full">
